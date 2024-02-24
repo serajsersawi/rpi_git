@@ -1,2 +1,2 @@
 # rpi_git
- This is the repository for assignment1 EE513 Connected Embedded Systems
+ This is the repository for assignment 1 EE513 Connected Embedded Systems
