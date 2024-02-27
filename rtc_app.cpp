@@ -31,7 +31,8 @@ using namespace std;
 using namespace i2c;
 
 int main() {
-   i2c_device_ds3231 rtc(1,0x53);
+   i2c_device_ds3231 rtc(1,0x68);
   
+
    return 0;
 }
