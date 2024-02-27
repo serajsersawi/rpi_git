@@ -23,8 +23,8 @@
 #define DS3231_REGISTER_CONTROL_STATUS_DEFAULT                0X00
 #define DS3231_REGISTER_AGING_OFFSET_DEFAULT                  0X00
 
-#define TWENTYFOUR 0U
-#define TWELVE 1U
+#define TWENTYFOUR 0
+#define TWELVE 1
 
 namespace i2c {
 	
