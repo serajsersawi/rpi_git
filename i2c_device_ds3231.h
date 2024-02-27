@@ -139,8 +139,8 @@ public:
     }
 
 	// Debugging method to display and update the pitch/roll on the one line
-	virtual void i2c_device_ds3231::displayTimeAndDate();
-	virtual void i2c_device_ds3231::displayTemperature();
+	virtual void displayTimeAndDate();
+	virtual void displayTemperature();
 	virtual ~i2c_device_ds3231();
 };
 

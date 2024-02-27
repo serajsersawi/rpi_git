@@ -27,6 +27,7 @@
 #include <unistd.h>
 #include <math.h>
 #include <stdio.h>
+#include <stdint.h>
 
 using namespace std;
 
