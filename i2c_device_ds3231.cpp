@@ -199,7 +199,7 @@ int i2c_device_ds3231::getYear(){
 	
 }
 
-virtual void changeHrMode(HOUR_MODE mode){
+void changeHrMode(unsigned int mode){
 	unsigned int oldRegisterVal = this->readRegister(HOURS_REG);
 	
 	swtich(mode){
