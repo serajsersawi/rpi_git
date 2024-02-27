@@ -34,8 +34,8 @@ namespace i2c {
 #define TEMP_MSB_REG       		0x11  
 #define TEMP_LSB_REG       		0x12  
 
-#define TWENTYFOUR 0 
-#define TWELVE 1
+#define TWENTYFOUR 0x00 
+#define TWELVE 0x01
 /**
  * The constructor for the ADXL345 accelerometer object. It passes the bus number and the
  * device address (with is 0x53 by default) to the constructor of I2CDevice. All of the states
