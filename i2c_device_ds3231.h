@@ -95,8 +95,6 @@ private:
 	int year;
 	unsigned int temperature;
 
-	static unsigned int register_current_value;        /*used to read current values of ds3231 registers*/
-	static unsigned int register_new_value;        /*used to write new values to ds3231 registers*/
 /* 	virtual int updateAllRegisters();
 	virtual int resetAllRegisters(); */
 	virtual unsigned int getSeconds();
@@ -106,6 +104,8 @@ private:
 	virtual unsigned int getDate();
 	virtual unsigned int getMonth();
 	virtual int			 getYear();
+	
+	virtual void changeHrMode(HOUR_MODE mode);
 
 public:
 	/*public functions APIs*/
