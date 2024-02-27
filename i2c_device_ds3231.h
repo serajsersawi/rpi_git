@@ -24,6 +24,9 @@
 #define DS3231_REGISTER_CONTROL_STATUS_DEFAULT                0X00
 #define DS3231_REGISTER_AGING_OFFSET_DEFAULT                  0X00
 
+#define TWENTYFOUR 0x00
+#define TWELVE 0x01
+
 namespace i2c {
 	
 class i2c_device_ds3231:protected i2c_device{
@@ -63,7 +66,7 @@ private:
 	/*private function*/
 	unsigned int I2CBus, I2CAddress;
 	unsigned char *registers;
-	i2c_device_ds3231::HOUR_MODE hr_mode;
+	unsigned int hr_mode;
 	i2c_device_ds3231::AFTER_BEFORE_NOON am_pm;
 	i2c_device_ds3231::SQR_WAVES wave;
 	i2c_device_ds3231::RUNCLK_STATE clk;

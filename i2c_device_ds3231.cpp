@@ -69,7 +69,7 @@ i2c_device_ds3231::i2c_device_ds3231(unsigned int I2CBus, unsigned int I2CAddres
 	this->month = DS3231_REGISTER_MONTH_DEFAULT;
 	this->year = DS3231_REGISTER_YEAR_DEFAULT;
 	
-	this->hr_mode = i2c_device_ds3231::TWENTYFOUR;
+	this->hr_mode = TWENTYFOUR;
 	this->wave = i2c_device_ds3231::WAVE_2;
 	this->clk = i2c_device_ds3231::CLOCK_RUN;
 		
@@ -143,12 +143,12 @@ unsigned int i2c_device_ds3231::getHours(){
 	
 	switch((this->readRegister(HOURS_REG) & 0x40) >> 6){
 		case 0:
-			this->hr_mode = i2c_device_ds3231::TWENTYFOUR;
+			this->hr_mode = TWENTYFOUR;
 			hourOnes = this->readRegister(HOURS_REG) & 0x0F;
 			hourTens = ((this->readRegister(HOURS_REG) & 0x30) >> 4) * 10;
 			break;
 		case 1:
-			this->hr_mode = i2c_device_ds3231::TWELVE;
+			this->hr_mode = TWELVE;
 			am_pm = static_cast<AFTER_BEFORE_NOON>((this->readRegister(HOURS_REG) & 0x20) >> 5);
 			hourOnes = this->readRegister(HOURS_REG) & 0x0F;
 			hourTens = ((this->readRegister(HOURS_REG) & 0x10) >> 4) * 10;
