@@ -149,7 +149,7 @@ unsigned int i2c_device_ds3231::getHours(){
 			break;
 		case 1:
 			this->hr_mode = i2c_device_ds3231::TWELVE;
-			am_pm = ((this->readRegister(HOURS_REG) & 0x20) >> 5);
+			am_pm = static_cast<AFTER_BEFORE_NOON>((this->readRegister(HOURS_REG) & 0x20) >> 5);
 			hourOnes = this->readRegister(HOURS_REG) & 0x0F;
 			hourTens = ((this->readRegister(HOURS_REG) & 0x10) >> 4) * 10;
 			break;
