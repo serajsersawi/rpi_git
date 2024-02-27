@@ -87,6 +87,11 @@ class i2c_device_ds3231:protected i2c_device{
 		TWENTYFOUR,
 		TWELVE
 	};
+	
+	enum AFTER_BEFORE_NOON { 
+		AM,
+		PM
+	};
 	//User defined sequence for days of the week
 	//Could be changed but must be sequential
 	enum DAY_OF_WEEK { 
@@ -104,11 +109,12 @@ private:
 	unsigned int I2CBus, I2CAddress;
 	unsigned char *registers;
 	i2c_device_ds3231::HOUR_MODE hr_mode;
+	i2c_device_ds3231::AFTER_BEFORE_NOON am_pm;
 	i2c_device_ds3231::SQR_WAVES wave;
 	i2c_device_ds3231::RUNCLK_STATE clk;
 	
-	unsigned int seconds, minutes, hours, day, date, month, year; // raw 2's complement values
-	
+	unsigned int seconds, minutes, hours, day, date, month; // raw 2's complement values
+	int year;
 	unsigned int temperature;
 
 	static unsigned int register_current_value;        /*used to read current values of ds3231 registers*/
@@ -120,16 +126,19 @@ public:
 	/*public functions APIs*/
 	i2c_device_ds3231(unsigned int I2CBus, unsigned int I2CAddress=0x68);
 	virtual int initUpdateAllRegisters();
+	//those might be moved to private
+	virtual unsigned int getSeconds(){bcdToDec(this->readRegister(SECONDS_REG));}
+	virtual unsigned int getMinutues(){bcdToDec(this->readRegister(MINUTES_REG));}
+	virtual unsigned int getHours();
+	virtual unsigned int getDay(){bcdToDec(this->readRegister(DAY_REG) & 0x07);}
+	virtual unsigned int getDate();
+	virtual unsigned int getMonth();
+	virtual int			 getYear();
+	static unsigned int bcdToDec(unsigned char bcdValue);
 
-	static int decimalToBCD(int decimalNumber) {
-        int tens = decimalNumber / 10;
-        int ones = decimalNumber % 10;
-        return (tens << 4) | ones;
-    }
-
-	// Debugging method to display and update the pitch/roll on the one line
-/* 	virtual void displayTimeAndDate();
-	virtual void displayTemperature(); */
+	virtual void displayTimeAndDate();
+	
+	//virtual void displayTemperature();
 	virtual ~i2c_device_ds3231();
 };
 

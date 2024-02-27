@@ -107,6 +107,7 @@ int i2c_device_ds3231::initUpdateAllRegisters(){
    check += (this->writeRegister(MINUTES_REG, DS3231_REGISTER_MINUTES_DEFAULT)); //Minutes: 00
    check += (this->writeRegister(HOURS_REG, DS3231_REGISTER_HOURS_DEFAULT)); //Hours: 00 | 24hr format
    check += (this->writeRegister(DAY_REG, DS3231_REGISTER_DAY_OF_WEEK_DEFAULT)); //User defined 01 Monday
+   check += (this->writeRegister(MONTH_CENT_REG, DS3231_REGISTER_MONTH_DEFAULT)); //01
    check += (this->writeRegister(DATE_REG, DS3231_REGISTER_DATE_DEFAULT)); //01
    check += (this->writeRegister(YEAR_REG, DS3231_REGISTER_YEAR_DEFAULT)); //2000
    
@@ -117,19 +118,108 @@ int i2c_device_ds3231::initUpdateAllRegisters(){
 
 /*********************************************************************************************/
 
-/**
- * Useful debug method to display the pitch and roll values in degrees on a single standard output line
- * @param iterations The number of 0.1s iterations to take place.
+
+ 
+void i2c_device_ds3231::displayTimeAndDate(){
+
+	//reading is done first (reading the register data into the class parameters)
+	//reading the values that do not change quickly first
+	this->year = 	getYear();
+	this->month = 	getMonth();
+	this->date = 	getDate();
+	this->day = 	getDay();
+	this->hours   = getHours();
+	this->minutes = getMinutues();
+	this->seconds = getSeconds();
+	
+	char dateTimeStr[];
+	switch(hr_mode){
+		case(TWELVE):
+		if(am_pm)
+			sprintf(dateTimeStr, "%02d:%02d:%02d PM   %02d/%02d/%d", hours, minutes, seconds, date, month, year);
+		else
+			sprintf(dateTimeStr, "%02d:%02d:%02d AM   %02d/%02d/%d", hours, minutes, seconds, date, month, year);
+		break;
+		case(TWENTYFOUR):
+			sprintf(dateTimeStr, "%02d:%02d:%02d   %02d/%02d/%d", hours, minutes, seconds, date, month, year);
+	}
+	
+	cout << dateTimeStr <<endl;
+	
+
+}
+
+/* void i2c_device_ds3231::displayTemperature(){
+
+}
  */
  
-/* void i2c_device_ds3231::displayTimeAndDate(){
+unsigned int getHours(){
+	
+	unsigned int hourTens;
+	unsigned int hourOnes;
+	
+	switch((this->readRegister(HOURS_REG) & 0x40) >> 6){
+		case 0:
+			this->hr_mode = i2c_device_ds3231::TWENTYFOUR;
+			hourOnes = this->readRegister(HOURS_REG) & 0x0F;
+			hourTens = ((this->readRegister(HOURS_REG) & 0x30) >> 4) * 10;
+			break;
+		case 1:
+			this->hr_mode = i2c_device_ds3231::TWELVE;
+			am_pm = ((this->readRegister(HOURS_REG) & 0x20) >> 4);
+			hourOnes = this->readRegister(HOURS_REG) & 0x0F;
+			hourTens = ((this->readRegister(HOURS_REG) & 0x10) >> 4) * 10;
+			break;
+	}
 
+	return hourOnes + hourTens;
 }
 
-void i2c_device_ds3231::displayTemperature(){
-
+unsigned int getDate(){
+	
+	unsigned int dateOnes;
+	unsigned int dateTens;
+	
+	dateOnes = (this->readRegister(DATE_REG) & 0x0F);
+	hourTens = ((this->readRegister(DATE_REG) & 0x30) >> 4) * 10;
+			
+	return dateOnes + dateTens;
 }
- */
+
+unsigned int getMonth(){
+	
+	unsigned int monthOnes;
+	unsigned int monthTens;
+	
+	hourOnes = (this->readRegister(MONTH_CENT_REG) & 0x0F);
+	hourTens = ((this->readRegister(MONTH_CENT_REG) & 0x10) >> 4) * 10;
+			
+	return monthOnes + monthTens;
+}
+
+int getYear(){
+	
+	unsigned int yearOnes;
+	unsigned int yearTens;
+	
+	yearOnes = (this->readRegister(YEAR_REG) & 0x0F);
+	yearTens = ((this->readRegister(YEAR_REG) & 0xF0) >> 4) * 10;
+	
+	if ((this->readRegister(MONTH_CENT_REG) & 0x80) >> 7){
+		return (2100 + yearOnes + yearTens);
+	}
+	else {
+		return (2000 + yearOnes + yearTens);
+	}
+	
+}
+ 
+static unsigned int bcdToDec(unsigned char bcdValue) {
+    unsigned int tens = (bcdValue >> 4) * 10;
+    unsigned int ones = bcdValue & 0x0F;
+    return tens + ones;
+}
 
 i2c_device_ds3231::~i2c_device_ds3231() {}
 
