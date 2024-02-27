@@ -154,6 +154,10 @@ void i2c_device_ds3231::displayTimeAndDate(){
 }
  */
  
+unsigned int getSeconds(){return bcdToDec(this->readRegister(SECONDS_REG));}
+
+unsigned int getMinutues(){return bcdToDec(this->readRegister(MINUTES_REG));}
+
 unsigned int getHours(){
 	
 	unsigned int hourTens;
@@ -175,6 +179,8 @@ unsigned int getHours(){
 
 	return hourOnes + hourTens;
 }
+
+unsigned int getDay(){return bcdToDec(this->readRegister(DAY_REG));}
 
 unsigned int getDate(){
 	

@@ -127,10 +127,10 @@ public:
 	i2c_device_ds3231(unsigned int I2CBus, unsigned int I2CAddress=0x68);
 	virtual int initUpdateAllRegisters();
 	//those might be moved to private
-	virtual unsigned int getSeconds(){bcdToDec(this->readRegister(SECONDS_REG));}
-	virtual unsigned int getMinutues(){bcdToDec(this->readRegister(MINUTES_REG));}
+	virtual unsigned int getSeconds();
+	virtual unsigned int getMinutues();
 	virtual unsigned int getHours();
-	virtual unsigned int getDay(){bcdToDec(this->readRegister(DAY_REG) & 0x07);}
+	virtual unsigned int getDay();
 	virtual unsigned int getDate();
 	virtual unsigned int getMonth();
 	virtual int			 getYear();
