@@ -57,8 +57,7 @@ namespace i2c {
 #define DS3231_REGISTER_AGING_OFFSET_DEFAULT                  0X00
 
 class i2c_device_ds3231:protected i2c_device{
-
-public:
+	
 	enum MAP {SECOND, MINUTE, HOUR, DAY_OF_WEEK, DATE, MONTH, YEAR, CONTROL, CONTROL_STATUS, AGING_OFFSET, ALARM1, ALARM2, ALARMS, TEMPERATURE, TIME, ALL};
 	enum SQR_WAVES {
 		WAVE_1, //1KHz
@@ -106,8 +105,6 @@ public:
 		SUNDAY
 	};
 	
-
-
 private:
 	/*private function*/
 	unsigned int I2CBus, I2CAddress;
@@ -128,7 +125,7 @@ private:
 public:
 	/*public functions APIs*/
 	i2c_device_ds3231(unsigned int I2CBus, unsigned int I2CAddress=0x68);
-	virtual int i2c_device_ds3231::initUpdateAllRegisters();
+	virtual int initUpdateAllRegisters();
 
 
 	
