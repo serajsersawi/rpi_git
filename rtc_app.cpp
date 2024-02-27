@@ -37,6 +37,7 @@ int main() {
    sleep(1);
    rtc.displayTimeAndDate();
    sleep(5);
+   rtc.changeHrMode(TWELVE);
    rtc.displayTimeAndDate();
    return 0;
 }
