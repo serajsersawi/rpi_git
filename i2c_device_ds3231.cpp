@@ -36,25 +36,25 @@ namespace i2c {
 //From fig 1. of the DS3231 Data sheet (page 11)
 //Register address mapping
 //Since the addresses are sequential, an enum can also be used.
-#define SECONDS_REG        		0x00   //Device ID
-#define MINUTES_REG    	   		0x01   //Tap Threshold
-#define HOURS_REG          		0x02   //X-axis Offset
-#define DAY_REG            		0x03   //Y-axis Offset
-#define DATE_REG           		0x04   //Z-axis Offset
-#define MONTH_CENT_REG     		0x05   //Tap duration
-#define YEAR_REG           		0x06   //Tap latency
-#define ALARM1_SEC_REG     		0x07   //Tap window
-#define ALARM1_MIN_REG     		0x08   //Activity threshold
-#define ALARM1_HR_REG           0x09   //Threshold inactivity
-#define ALARM1_DAY_DATE_REG     0x0A   //Inactivity time
-#define ALARM2_MIN_REG     		0x0B   //Activity threshold
-#define ALARM2_HR_REG      		0x0C   //Threshold inactivity
-#define ALARM2_DAY_DATE_REG    	0x0D   //Inactivity time
-#define CTRL_REG           		0x0E   //Free-fall threshold
-#define CTRL_STAT_REG      		0x0F   //Free-fall time
-#define AGING_OFFSET_REG   		0x10   //Axis control for single tap/double tap
-#define TEMP_MSB_REG       		0x11   //Source of single tap/double tap
-#define TEMP_LSB_REG       		0x12   //Data rate and power mode control
+#define SECONDS_REG        		0x00  
+#define MINUTES_REG    	   		0x01  
+#define HOURS_REG          		0x02  
+#define DAY_REG            		0x03  
+#define DATE_REG           		0x04  
+#define MONTH_CENT_REG     		0x05  
+#define YEAR_REG           		0x06  
+#define ALARM1_SEC_REG     		0x07  
+#define ALARM1_MIN_REG     		0x08  
+#define ALARM1_HR_REG           0x09  
+#define ALARM1_DAY_DATE_REG     0x0A  
+#define ALARM2_MIN_REG     		0x0B  
+#define ALARM2_HR_REG      		0x0C  
+#define ALARM2_DAY_DATE_REG    	0x0D  
+#define CTRL_REG           		0x0E  
+#define CTRL_STAT_REG      		0x0F  
+#define AGING_OFFSET_REG   		0x10  
+#define TEMP_MSB_REG       		0x11  
+#define TEMP_LSB_REG       		0x12  
 
 /**
  * The constructor for the ADXL345 accelerometer object. It passes the bus number and the
@@ -113,7 +113,7 @@ int i2c_device_ds3231::initUpdateAllRegisters(){
    return check;
 }
 
-i2c_device_ds3231::~i2c_device_ds3231() {}
+
 
 /*********************************************************************************************/
 
@@ -129,5 +129,7 @@ void i2c_device_ds3231::displayTemperature(){
 
 }
 
+
+i2c_device_ds3231::~i2c_device_ds3231() {}
 
 } /* namespace exploringRPi */
