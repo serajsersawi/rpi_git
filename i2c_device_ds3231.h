@@ -4,8 +4,7 @@
 #define I2C_DEVICE_DS3231_H_
 #include"i2c_device.h"
 
-/// The ADXL345 has 0x40 registers (0x01 to 0x1C are reserved and should not be accessed)
-#define BUFFER_SIZE 0x40
+
 
 #define DS3231_REGISTER_SECONDS_DEFAULT                       0X00
 #define DS3231_REGISTER_MINUTES_DEFAULT                       0X00
@@ -39,6 +38,12 @@ class i2c_device_ds3231:protected i2c_device{
 	enum RUNCLK_STATE{CLOCK_HALT, CLOCK_RUN};
 	/*This enum is redundant, the register map in the cpp file is used instead*/
 	
+	// bit 6 of the hours register
+	enum HOUR_MODE { 
+		TWENTYFOUR,
+		TWELVE
+	};
+	
 	enum AFTER_BEFORE_NOON { 
 		AM,
 		PM
@@ -58,7 +63,7 @@ private:
 	/*private function*/
 	unsigned int I2CBus, I2CAddress;
 	unsigned char *registers;
-	bool hr_mode;
+	i2c_device_ds3231::HOUR_MODE hr_mode;
 	i2c_device_ds3231::AFTER_BEFORE_NOON am_pm;
 	i2c_device_ds3231::SQR_WAVES wave;
 	i2c_device_ds3231::RUNCLK_STATE clk;
@@ -92,7 +97,7 @@ public:
 	}
 
 	virtual void displayTimeAndDate();
-	virtual void changeHrMode(unsigned int  mode);
+	virtual void changeHrMode(unsigned int mode);
 	
 	//virtual void displayTemperature();
 	virtual ~i2c_device_ds3231();
