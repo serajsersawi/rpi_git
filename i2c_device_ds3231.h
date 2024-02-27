@@ -113,9 +113,9 @@ private:
 	i2c_device_ds3231::SQR_WAVES wave;
 	i2c_device_ds3231::RUNCLK_STATE clk;
 	
-	uint8_t seconds, minutes, hours, day, date, month, year; // raw 2's complement values
+	unsigned int seconds, minutes, hours, day, date, month, year; // raw 2's complement values
 	
-	uint8_t temperature;
+	unsigned int temperature;
 
 	static uint8_t register_current_value;        /*used to read current values of ds3231 registers*/
 	static uint8_t register_new_value;        /*used to write new values to ds3231 registers*/

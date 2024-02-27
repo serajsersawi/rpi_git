@@ -27,7 +27,7 @@
 #include <unistd.h>
 #include <math.h>
 #include <stdio.h>
-#include <cstdint>
+
 
 using namespace std;
 
@@ -78,7 +78,7 @@ namespace i2c {
  
 */
 i2c_device_ds3231::i2c_device_ds3231(unsigned int I2CBus, unsigned int I2CAddress):
-	I2CDevice(I2CBus, I2CAddress){   // this member initialisation list calls the parent constructor
+	i2c_device(I2CBus, I2CAddress){   // this member initialisation list calls the parent constructor
 	
 	this->I2CAddress = I2CAddress;
 	this->I2CBus = I2CBus;
