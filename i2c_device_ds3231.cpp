@@ -132,11 +132,11 @@ void i2c_device_ds3231::displayTimeAndDate(){
 }
  */
  
-unsigned int getSeconds(){return bcdToDec(this->readRegister(SECONDS_REG));}
+unsigned int i2c_device_ds3231::getSeconds(){return bcdToDec(this->readRegister(SECONDS_REG));}
 
-unsigned int getMinutues(){return bcdToDec(this->readRegister(MINUTES_REG));}
+unsigned int i2c_device_ds3231::getMinutues(){return bcdToDec(this->readRegister(MINUTES_REG));}
 
-unsigned int getHours(){
+unsigned int i2c_device_ds3231::getHours(){
 	
 	unsigned int hourTens;
 	unsigned int hourOnes;
@@ -158,9 +158,9 @@ unsigned int getHours(){
 	return hourOnes + hourTens;
 }
 
-unsigned int getDay(){return bcdToDec(this->readRegister(DAY_REG));}
+unsigned int i2c_device_ds3231::getDay(){return bcdToDec(this->readRegister(DAY_REG));}
 
-unsigned int getDate(){
+unsigned int i2c_device_ds3231::getDate(){
 	
 	unsigned int dateOnes;
 	unsigned int dateTens;
@@ -171,7 +171,7 @@ unsigned int getDate(){
 	return dateOnes + dateTens;
 }
 
-unsigned int getMonth(){
+unsigned int i2c_device_ds3231::getMonth(){
 	
 	unsigned int monthOnes;
 	unsigned int monthTens;
@@ -182,7 +182,7 @@ unsigned int getMonth(){
 	return monthOnes + monthTens;
 }
 
-int getYear(){
+int i2c_device_ds3231::getYear(){
 	
 	unsigned int yearOnes;
 	unsigned int yearTens;
