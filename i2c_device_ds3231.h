@@ -106,7 +106,7 @@ public:
 	virtual int initUpdateAllRegisters();
 	//those might be moved to private
 	virtual unsigned int getSeconds();
-	virtual unsigned int getMinutues();
+	virtual unsigned int getMinutes();
 	virtual unsigned int getHours();
 	virtual unsigned int getDay();
 	virtual unsigned int getDate();
