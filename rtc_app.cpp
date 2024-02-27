@@ -34,7 +34,9 @@ int main() {
    i2c_device_ds3231 rtc(1,0x68);
    
    rtc.displayTimeAndDate();
-  
-
+   usleep(100000);
+   rtc.displayTimeAndDate();
+   usleep(100000);
+   rtc.displayTimeAndDate();
    return 0;
 }
