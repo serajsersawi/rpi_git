@@ -4,8 +4,6 @@
 #define I2C_DEVICE_DS3231_H_
 #include"i2c_device.h"
 
-/// The ADXL345 has 0x40 registers (0x01 to 0x1C are reserved and should not be accessed)
-#define BUFFER_SIZE 0x40
 
 #define DS3231_REGISTER_SECONDS_DEFAULT                       0X00
 #define DS3231_REGISTER_MINUTES_DEFAULT                       0X00
@@ -24,6 +22,9 @@
 #define DS3231_REGISTER_CONTROL_DEFAULT                       0X1C
 #define DS3231_REGISTER_CONTROL_STATUS_DEFAULT                0X00
 #define DS3231_REGISTER_AGING_OFFSET_DEFAULT                  0X00
+
+#define TWENTYFOUR 0U
+#define TWELVE 1U
 
 namespace i2c {
 	
