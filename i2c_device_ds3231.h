@@ -83,7 +83,7 @@ private:
 	virtual unsigned int getMonth();
 	virtual int			 getYear();
 	
-	virtual void changeHrMode(unsigned int  mode);
+	
 
 public:
 	/*public functions APIs*/
@@ -98,6 +98,7 @@ public:
 	}
 
 	virtual void displayTimeAndDate();
+	virtual void changeHrMode(unsigned int  mode);
 	
 	//virtual void displayTemperature();
 	virtual ~i2c_device_ds3231();
