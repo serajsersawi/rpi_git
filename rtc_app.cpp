@@ -37,7 +37,7 @@ int main() {
    sleep(1);
    rtc.displayTimeAndDate();
    sleep(5);
-   rtc.changeHrMode(TWELVE);
+   rtc.changeHrMode(i2c_device_ds3231::TWELVE);
    rtc.displayTimeAndDate();
    return 0;
 }
