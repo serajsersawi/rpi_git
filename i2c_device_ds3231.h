@@ -99,12 +99,6 @@ private:
 	static unsigned int register_new_value;        /*used to write new values to ds3231 registers*/
 /* 	virtual int updateAllRegisters();
 	virtual int resetAllRegisters(); */
-
-public:
-	/*public functions APIs*/
-	i2c_device_ds3231(unsigned int I2CBus, unsigned int I2CAddress=0x68);
-	virtual int initUpdateAllRegisters();
-	//those might be moved to private
 	virtual unsigned int getSeconds();
 	virtual unsigned int getMinutes();
 	virtual unsigned int getHours();
@@ -112,11 +106,18 @@ public:
 	virtual unsigned int getDate();
 	virtual unsigned int getMonth();
 	virtual int			 getYear();
+
+public:
+	/*public functions APIs*/
+	i2c_device_ds3231(unsigned int I2CBus, unsigned int I2CAddress=0x68);
+	virtual int initUpdateAllRegisters();
+	//those might be moved to private
+
 	static unsigned int bcdToDec(unsigned char bcdValue) {
     unsigned int tens = (bcdValue >> 4) * 10;
     unsigned int ones = bcdValue & 0x0F;
     return tens + ones;
-}
+	}
 
 	virtual void displayTimeAndDate();
 	
