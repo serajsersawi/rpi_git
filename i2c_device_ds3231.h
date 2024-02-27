@@ -105,7 +105,7 @@ private:
 	virtual unsigned int getMonth();
 	virtual int			 getYear();
 	
-	virtual void changeHrMode(HOUR_MODE mode);
+	virtual void changeHrMode(unsigned int  mode);
 
 public:
 	/*public functions APIs*/
