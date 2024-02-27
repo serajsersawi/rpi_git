@@ -1,4 +1,4 @@
-#include"I2CDevice.h"
+#include"i2c_device.h"
 #include<iostream>
 #include<sstream>
 #include<fcntl.h>
