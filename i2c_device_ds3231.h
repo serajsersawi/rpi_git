@@ -117,8 +117,8 @@ private:
 	
 	unsigned int temperature;
 
-	static uint8_t register_current_value;        /*used to read current values of ds3231 registers*/
-	static uint8_t register_new_value;        /*used to write new values to ds3231 registers*/
+	static unsigned int register_current_value;        /*used to read current values of ds3231 registers*/
+	static unsigned int register_new_value;        /*used to write new values to ds3231 registers*/
 	virtual int updateAllRegisters();
 	virtual int resetAllRegisters();
 
