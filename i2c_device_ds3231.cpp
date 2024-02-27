@@ -121,14 +121,15 @@ int i2c_device_ds3231::initUpdateAllRegisters(){
  * Useful debug method to display the pitch and roll values in degrees on a single standard output line
  * @param iterations The number of 0.1s iterations to take place.
  */
-void i2c_device_ds3231::displayTimeAndDate(){
+ 
+/* void i2c_device_ds3231::displayTimeAndDate(){
 
 }
 
 void i2c_device_ds3231::displayTemperature(){
 
 }
-
+ */
 
 i2c_device_ds3231::~i2c_device_ds3231() {}
 

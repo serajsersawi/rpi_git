@@ -113,8 +113,8 @@ private:
 
 	static unsigned int register_current_value;        /*used to read current values of ds3231 registers*/
 	static unsigned int register_new_value;        /*used to write new values to ds3231 registers*/
-	virtual int updateAllRegisters();
-	virtual int resetAllRegisters();
+/* 	virtual int updateAllRegisters();
+	virtual int resetAllRegisters(); */
 
 public:
 	/*public functions APIs*/
@@ -128,8 +128,8 @@ public:
     }
 
 	// Debugging method to display and update the pitch/roll on the one line
-	virtual void displayTimeAndDate();
-	virtual void displayTemperature();
+/* 	virtual void displayTimeAndDate();
+	virtual void displayTemperature(); */
 	virtual ~i2c_device_ds3231();
 };
 
