@@ -29,8 +29,8 @@
  
  */
 
-#ifndef I2C_H_
-#define I2C_H_
+#ifndef I2C_DEVICE_H_
+#define I2C_DEVICE_H_
 
 #define I2C_0 "/dev/i2c-0"
 #define I2C_1 "/dev/i2c-1"
@@ -41,13 +41,13 @@ namespace i2c {
  * @class I2CDevice
  * @brief Generic I2C Device class that can be used to connect to any type of I2C device and read or write to its registers
  */
-class I2CDevice{
+class i2c_device{
 private:
 	unsigned int bus;
 	unsigned int device;
 	int file;
 public:
-	I2CDevice(unsigned int bus, unsigned int device);
+	i2c_device(unsigned int bus, unsigned int device);
 	virtual int open();
 	virtual int write(unsigned char value);
 	virtual unsigned char readRegister(unsigned int registerAddress);
@@ -55,9 +55,9 @@ public:
 	virtual int writeRegister(unsigned int registerAddress, unsigned char value);
 	virtual void debugDumpRegisters(unsigned int number = 0xff);
 	virtual void close();
-	virtual ~I2CDevice();
+	virtual ~i2c_device();
 };
 
-} /* namespace exploringRPi */
+} /* namespace i2c */
 
-#endif /* I2C_H_ */
+#endif /* I2C_DEVICE_H_ */

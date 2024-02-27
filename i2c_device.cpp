@@ -25,7 +25,7 @@ namespace i2c {
  * @param bus The bus number. (for example: 1)
  * @param device The device ID on the bus. (for example: 0x68)
  */
-I2CDevice::I2CDevice(unsigned int bus, unsigned int device) {
+i2c_device::i2c_device(unsigned int bus, unsigned int device) {
 	this->file=-1;
 	this->bus = bus;
 	this->device = device;
@@ -36,7 +36,7 @@ I2CDevice::I2CDevice(unsigned int bus, unsigned int device) {
  * Open a connection to an I2C device
  * @return 1 on failure to open to the bus or device, 0 on success.
  */
-int I2CDevice::open(){
+int i2c_device::open(){
    string name;
    if(this->bus==0) name = I2C_0;
    else name = I2C_1;
@@ -59,7 +59,7 @@ int I2CDevice::open(){
  * @return 1 on failure to write, 0 on success.
  */
 
-int I2CDevice::writeRegister(unsigned int registerAddress, unsigned char value){
+int i2c_device::writeRegister(unsigned int registerAddress, unsigned char value){
    unsigned char buffer[2];
    buffer[0] = registerAddress;
    buffer[1] = value;
@@ -76,7 +76,7 @@ int I2CDevice::writeRegister(unsigned int registerAddress, unsigned char value){
  * @param value the value to write to the device
  * @return 1 on failure to write, 0 on success.
  */
-int I2CDevice::write(unsigned char value){
+int i2c_device::write(unsigned char value){
    unsigned char buffer[1];
    buffer[0]=value;
    if (::write(this->file, buffer, 1)!=1){
@@ -91,7 +91,7 @@ int I2CDevice::write(unsigned char value){
  * @param registerAddress the address to read from
  * @return the byte value at the register address.
  */
-unsigned char I2CDevice::readRegister(unsigned int registerAddress){
+unsigned char i2c_device::readRegister(unsigned int registerAddress){
    this->write(registerAddress);
    unsigned char buffer[1];
    if(::read(this->file, buffer, 1)!=1){
@@ -109,7 +109,7 @@ unsigned char I2CDevice::readRegister(unsigned int registerAddress){
  * @param fromAddress the starting address to read from
  * @return a pointer of type unsigned char* that points to the first element in the block of registers
  */
-unsigned char* I2CDevice::readRegisters(unsigned int number, unsigned int fromAddress){
+unsigned char* i2c_device::readRegisters(unsigned int number, unsigned int fromAddress){
 	this->write(fromAddress);
 	unsigned char* data = new unsigned char[number];
     if(::read(this->file, data, number)!=(int)number){
@@ -127,7 +127,7 @@ unsigned char* I2CDevice::readRegisters(unsigned int number, unsigned int fromAd
  * @param number the total number of registers to dump, defaults to 0xff
  */
 
-void I2CDevice::debugDumpRegisters(unsigned int number){
+void i2c_device::debugDumpRegisters(unsigned int number){
 	cout << "Dumping Registers for Debug Purposes:" << endl;
 	unsigned char *registers = this->readRegisters(number);
 	for(int i=0; i<(int)number; i++){
@@ -140,7 +140,7 @@ void I2CDevice::debugDumpRegisters(unsigned int number){
 /**
  * Close the file handles and sets a temporary state to -1.
  */
-void I2CDevice::close(){
+void i2c_device::close(){
 	::close(this->file);
 	this->file = -1;
 }
@@ -148,7 +148,7 @@ void I2CDevice::close(){
 /**
  * Closes the file on destruction, provided that it has not already been closed.
  */
-I2CDevice::~I2CDevice() {
+i2c_device::~i2c_device() {
 	if(file!=-1) this->close();
 }
 
