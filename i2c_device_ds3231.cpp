@@ -199,11 +199,7 @@ int i2c_device_ds3231::getYear(){
 	
 }
  
-static unsigned int bcdToDec(unsigned char bcdValue) {
-    unsigned int tens = (bcdValue >> 4) * 10;
-    unsigned int ones = bcdValue & 0x0F;
-    return tens + ones;
-}
+
 
 i2c_device_ds3231::~i2c_device_ds3231() {}
 

@@ -112,7 +112,11 @@ public:
 	virtual unsigned int getDate();
 	virtual unsigned int getMonth();
 	virtual int			 getYear();
-	static unsigned int bcdToDec(unsigned char bcdValue);
+	static unsigned int bcdToDec(unsigned char bcdValue) {
+    unsigned int tens = (bcdValue >> 4) * 10;
+    unsigned int ones = bcdValue & 0x0F;
+    return tens + ones;
+}
 
 	virtual void displayTimeAndDate();
 	
