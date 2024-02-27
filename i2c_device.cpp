@@ -29,7 +29,7 @@ i2c_device::i2c_device(unsigned int bus, unsigned int device) {
 	this->file=-1;
 	this->bus = bus;
 	this->device = device;
-	this->open();
+	if(!this->open();) {perror("I2C bus opened!\n");}
 }
 
 /**
