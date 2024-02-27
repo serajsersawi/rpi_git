@@ -199,10 +199,10 @@ int i2c_device_ds3231::getYear(){
 	
 }
 
-void changeHrMode(unsigned int mode){
+void i2c_device_ds3231::changeHrMode(unsigned int mode){
 	unsigned int oldRegisterVal = this->readRegister(HOURS_REG);
 	
-	swtich(mode){
+	switch(mode){
 		case TWENTYFOUR:
 		this->writeRegister(HOURS_REG, (oldRegisterVal & !(0x40)));
 		break;
