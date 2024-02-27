@@ -27,9 +27,6 @@
 
 namespace i2c {
 
-
-class i2c_device_ds3231:protected i2c_device{
-	
 	enum MAP {SECOND, MINUTE, HOUR, DAY_OF_WEEK, DATE, MONTH, YEAR, CONTROL, CONTROL_STATUS, AGING_OFFSET, ALARM1, ALARM2, ALARMS, TEMPERATURE, TIME, ALL};
 	enum SQR_WAVES {
 		WAVE_1, //1KHz
@@ -81,6 +78,8 @@ class i2c_device_ds3231:protected i2c_device{
 		SATURDAY,
 		SUNDAY
 	};
+	
+class i2c_device_ds3231:protected i2c_device{
 	
 private:
 	/*private function*/
