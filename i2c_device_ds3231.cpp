@@ -134,7 +134,7 @@ void i2c_device_ds3231::displayTimeAndDate(){
  
 unsigned int i2c_device_ds3231::getSeconds(){return bcdToDec(this->readRegister(SECONDS_REG));}
 
-unsigned int i2c_device_ds3231::getMinutues(){return bcdToDec(this->readRegister(MINUTES_REG));}
+unsigned int i2c_device_ds3231::getMinutes(){return bcdToDec(this->readRegister(MINUTES_REG));}
 
 unsigned int i2c_device_ds3231::getHours(){
 	
@@ -149,7 +149,7 @@ unsigned int i2c_device_ds3231::getHours(){
 			break;
 		case 1:
 			this->hr_mode = i2c_device_ds3231::TWELVE;
-			am_pm = ((this->readRegister(HOURS_REG) & 0x20) >> 4);
+			am_pm = ((this->readRegister(HOURS_REG) & 0x20) >> 5);
 			hourOnes = this->readRegister(HOURS_REG) & 0x0F;
 			hourTens = ((this->readRegister(HOURS_REG) & 0x10) >> 4) * 10;
 			break;
