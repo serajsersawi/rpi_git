@@ -109,7 +109,7 @@ private:
 	/*private function*/
 	unsigned int I2CBus, I2CAddress;
 	unsigned char *registers;
-	i2c_device_ds3231::AM_PM hr_mode;
+	i2c_device_ds3231::HOUR_MODE hr_mode;
 	i2c_device_ds3231::SQR_WAVES wave;
 	i2c_device_ds3231::RUNCLK_STATE clk;
 	
