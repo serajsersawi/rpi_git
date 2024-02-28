@@ -189,7 +189,7 @@ void i2c_device_ds3231::setTimeAndDate(unsigned int hours, unsigned int minutes,
 unsigned int i2c_device_ds3231::getSeconds(){return bcdToDec(this->readRegister(SECONDS_REG));}
 
 unsigned int i2c_device_ds3231::setSeconds(unsigned int seconds){
-	if(seconds > -1 || seconds < 60){
+	if(seconds < 60){
 		this->writeRegister(SECONDS_REG, decimalToBCD(seconds));
 		//update the object 
 		this->seconds = getSeconds();
