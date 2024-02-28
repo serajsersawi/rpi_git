@@ -385,6 +385,8 @@ int i2c_device_ds3231::setYear(int year){
 		}	
 		int yearTensAndOnes = year % 100;
 		
+		cout << "yearTensAndOnes" << yearTensAndOnes << endl;
+		
 		this->writeRegister(YEAR_REG, (decimalToBCD(yearTensAndOnes) & 0x07));
 		this->year = 	getYear();
 		return 0;
