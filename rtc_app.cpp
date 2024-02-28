@@ -41,7 +41,12 @@ int main() {
    rtc.displayTimeAndDate();
    rtc.displayTemperature();
 
+   rtc.setTime(13,30,0);
+   rtc.displayTimeAndDate();
+   rtc.setTime(28,2,2024);
+   rtc.displayTimeAndDate();
+   rtc.setTimeAndDate(14,35,3,10,10,2024);
+   rtc.displayTimeAndDate();
    
-   //rtc.debugDumpRegisters(12);
    return 0;
 }

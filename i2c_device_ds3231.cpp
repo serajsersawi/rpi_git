@@ -124,7 +124,6 @@ void i2c_device_ds3231::displayTimeAndDate(){
 	
 	cout << dateTimeStr <<endl;
 	
-
 }
 
 int i2c_device_ds3231::displayTemperature(){
@@ -161,14 +160,56 @@ int i2c_device_ds3231::displayTemperature(){
 		
 		cout << "The temperature is " << this->temperature << "°C" << endl;
 		return 0;
-	
-
 }
+
+void i2c_device_ds3231::setDate(unsigned int date, unsigned int month, int year){
+	setYear(year);
+	setMonth(month);
+	setDate(date);
+}
+
+void i2c_device_ds3231::setTime(unsigned int hours, unsigned int minutes, unsigned int seconds){
+	setHours(hours);
+	setMinutes(minutes);
+	setSeconds(seconds);
+}
+
+void i2c_device_ds3231::setTimeAndDate(unsigned int hours, unsigned int minutes, unsigned int seconds, unsigned int date, unsigned int month, int year){
+	setDate(date, month, year);
+	setTime(hours, minutes, seconds);
+	
+}
+
+
+
 
  
 unsigned int i2c_device_ds3231::getSeconds(){return bcdToDec(this->readRegister(SECONDS_REG));}
 
+unsigned int i2c_device_ds3231::setSeconds(unsigned int seconds){
+	if(seconds > -1 || seconds < 60){
+		this->writeRegister(SECONDS_REG, decimalToBCD(seconds));
+		//update the object 
+		this->seconds = getSeconds();
+		return 0;
+	}
+	else{
+		cerr << "Seconds out of range (00-59)" << endl;
+	}
+}
+
 unsigned int i2c_device_ds3231::getMinutes(){return bcdToDec(this->readRegister(MINUTES_REG));}
+
+unsigned int i2c_device_ds3231::setMinutes(unsigned int minutes){
+	if(minutes > -1 && minutes < 60){
+		this->writeRegister(MINUTES_REG, decimalToBCD(minutes));
+		this->minutes = getMinutes();
+		return 0;
+	}
+	else{
+		cerr << "Minutes out of range (00-59)" << endl;
+	}
+}
 
 unsigned int i2c_device_ds3231::getHours(){
 	
@@ -192,7 +233,53 @@ unsigned int i2c_device_ds3231::getHours(){
 	return hourOnes + hourTens;
 }
 
+//this function will accept hours 0 - 12 and not change anything 
+//if the hour is greater than 12 till 24 wil accept it and make sure system is 24
+unsigned int i2c_device_ds3231::setHours(unsigned int hours){
+	
+	unsigned int hourTens;
+	unsigned int hourOnes;
+	unsigned int oldRegisterVal = this->readRegister(HOURS_REG);
+	
+	if(hours > -1 && hours < 13){
+		//will write to the register and leave everything else unchanged
+		hourTens = decimal / 10;
+		hourOnes = decimal % 10;
+		this->writeRegister(HOURS_REG, ((oldRegisterVal & 0xE0) | (((hourTens << 4) | hourOnes) & 0x1F)));
+		this->hours   = getHours();
+		return 0;
+	} 
+	else if(hours > 12 && hours < 24){
+		
+		hourTens = decimal / 10;
+		hourOnes = decimal % 10;
+		this->changeHrMode(TWENTYFOUR);
+		this->writeRegister(HOURS_REG, ((oldRegisterVal & 0xC0) | (((hourTens << 4) | hourOnes) & 0x3F)));
+		this->hours   = getHours();
+		return 0;
+	}
+	else{
+		cerr << "Hours out of range (00-23) (1-12)" << endl;
+		return 1;
+	}
+}
+
+
+
+
 unsigned int i2c_device_ds3231::getDay(){return bcdToDec(this->readRegister(DAY_REG));}
+
+unsigned int i2c_device_ds3231::setDay(unsigned int day){
+	if(day > 0 && minutes < 8){
+		this->writeRegister(DAY_REG, (decimalToBCD(day) & 0x07));
+		this->day = 	getDay();
+		return 0;
+	}
+	else{
+		cerr << "Days out of range (1-7)" << endl;
+		return 1;
+	}
+}
 
 unsigned int i2c_device_ds3231::getDate(){
 	
@@ -203,6 +290,44 @@ unsigned int i2c_device_ds3231::getDate(){
 	dateTens = ((this->readRegister(DATE_REG) & 0x30) >> 4) * 10;
 			
 	return dateOnes + dateTens;
+}
+
+unsigned int i2c_device_ds3231::setDate(unsigned int date){
+	
+	bool isValidDate = false;
+	switch(getMonth()) {
+		case 4: case 6: case 9: case 11: // April, June, September, November have 30 days
+            if(date > 0 && date < 31){
+				isValidDate = true;
+			}
+        case 2: // February needs special handling for leap years
+            if (isLeapYear && (date > 0 && date < 30)) {
+                isValidDate = true; // Leap year
+            else if ((date > 0 && date < 29){
+                isValidDate = true; // Common year
+            }
+			else{
+				
+			}
+        case 1: case 3: case 5: case 7: case 8: case 10: // All other months have 31 days
+            if(date > 0 && date < 32){
+				isValidDate = true;
+			}
+    }
+	
+	if(isValidDate){
+		this->writeRegister(DATE_REG, (decimalToBCD(date) && 0x3F));
+		this->date = 	getDate();
+		return 0;
+	}
+	
+	else{
+		cerr << "Date out of range or invalid" << endl;
+		return 1;
+		
+	}
+	
+
 }
 
 unsigned int i2c_device_ds3231::getMonth(){
@@ -216,7 +341,21 @@ unsigned int i2c_device_ds3231::getMonth(){
 	return monthOnes + monthTens;
 }
 
-int i2c_device_ds3231::getYear(){
+unsigned int i2c_device_ds3231::setMonth(unsigned int month){
+	
+	unsigned int oldRegisterVal = this->readRegister(MONTH_CENT_REG);
+	if(month > 0 && month < 13){
+		this->writeRegister(MONTH_CENT_REG, ((oldRegisterVal & 0xE0) | (decimalToBCD(month) & 0x1F)));
+		this->month = getMonth();
+		return 0;
+	}
+	else{
+		cerr << "Month out of range (1-12)" << endl;
+		return 1;
+	}
+}
+
+int i2c_device_ds3231::getYear(int year){
 	
 	unsigned int yearOnes;
 	unsigned int yearTens;
@@ -233,6 +372,27 @@ int i2c_device_ds3231::getYear(){
 	
 }
 
+int i2c_device_ds3231::setYear(int year);
+	
+	if(year > 2000 && year < 2100){
+		
+		if((year % 4 == 0) && (year % 100 != 0 || year % 400 == 0)){
+			this->isLeapYear = true;
+		}	
+		int yearTensAndOnes = year % 100;
+		
+		this->writeRegister(YEAR_REG, (decimalToBCD(yearTensAndOnes) & 0x07));
+		this->year = 	getYear();
+		return 0;
+	}
+	
+	else{
+		cerr << "Year out of range (2000 - 2099)" << endl;
+		return 1;
+		
+	}
+}
+
 void i2c_device_ds3231::changeHrMode(unsigned int mode){
 	unsigned int oldRegisterVal = this->readRegister(HOURS_REG);
 	
@@ -245,7 +405,17 @@ void i2c_device_ds3231::changeHrMode(unsigned int mode){
 		break;
 	}
 }
- 
+ unsigned char i2c_device_ds3231::decimalToBCD(int decimal){
+	 
+    if (decimal < 0 || decimal > 99) {
+        cerr << "Decimal number out of range for a single BCD byte (0-99)" << std::endl;
+        return 0;
+    }
+	
+	int tens = decimal / 10;
+    int ones = decimal % 10;
+	return static_cast<unsigned char>((tens << 4) | ones);
+}
 
 
 i2c_device_ds3231::~i2c_device_ds3231() {}

@@ -59,6 +59,11 @@ public:
 		SATURDAY,
 		SUNDAY
 	};
+	
+	enum STATUS { 
+		OK,
+		ERROR
+	};
 private:
 	/*private function*/
 	unsigned int I2CBus, I2CAddress;
@@ -68,12 +73,15 @@ private:
 	i2c_device_ds3231::SQR_WAVES wave;
 	i2c_device_ds3231::RUNCLK_STATE clk;
 	
+	//they are always in decimal format
 	unsigned int seconds, minutes, hours, day, date, month; // raw 2's complement values
 	int year;
+	bool isLeapYear;
 	float temperature;
 
 /* 	virtual int updateAllRegisters();
 	virtual int resetAllRegisters(); */
+
 	virtual unsigned int getSeconds();
 	virtual unsigned int getMinutes();
 	virtual unsigned int getHours();
@@ -82,8 +90,15 @@ private:
 	virtual unsigned int getMonth();
 	virtual int			 getYear();
 	
+	virtual unsigned int setSeconds	(unsigned int seconds);
+	virtual unsigned int setMinutes	(unsigned int minutes);
+	virtual unsigned int setHours	(unsigned int hours);
+	virtual unsigned int setDay		(unsigned int day);
+	virtual unsigned int setDate	(unsigned int date);
+	virtual unsigned int setMonth	(unsigned int month);
+	virtual int			 setYear	(int year);
 	
-
+	
 public:
 	/*public functions APIs*/
 	i2c_device_ds3231(unsigned int I2CBus, unsigned int I2CAddress=0x68);
@@ -95,11 +110,21 @@ public:
     unsigned int ones = bcdValue & 0x0F;
     return tens + ones;
 	}
+	
+	static unsigned char decimalToBCD(int decimal);
+
+
 
 	virtual void displayTimeAndDate();
-	virtual void changeHrMode(unsigned int mode);
-	
 	virtual int displayTemperature();
+	
+	virtual void displayTimeAndDate();
+	virtual void changeHrMode(unsigned int mode);
+	virtual void setTimeAndDate(unsigned int hours, unsigned int minutes, unsigned int seconds, unsigned int date, unsigned int month, int year);
+	//time is only set by user in 24 format but it will retain the current format for time
+	virtual void setTime(unsigned int hours, unsigned int minutes, unsigned int seconds);
+	virtual void setDate(unsigned int date, unsigned int month, int year);
+	
 	virtual ~i2c_device_ds3231();
 };
 
