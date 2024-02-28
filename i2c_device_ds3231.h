@@ -70,7 +70,7 @@ private:
 	
 	unsigned int seconds, minutes, hours, day, date, month; // raw 2's complement values
 	int year;
-	unsigned int temperature;
+	float temperature;
 
 /* 	virtual int updateAllRegisters();
 	virtual int resetAllRegisters(); */
