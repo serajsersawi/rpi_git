@@ -243,8 +243,8 @@ unsigned int i2c_device_ds3231::setHours(unsigned int hours){
 	
 	if(hours > -1 && hours < 13){
 		//will write to the register and leave everything else unchanged
-		hourTens = decimal / 10;
-		hourOnes = decimal % 10;
+		hourTens = hours / 10;
+		hourOnes = hours % 10;
 		this->writeRegister(HOURS_REG, ((oldRegisterVal & 0xE0) | (((hourTens << 4) | hourOnes) & 0x1F)));
 		this->hours   = getHours();
 		return 0;
@@ -356,7 +356,7 @@ unsigned int i2c_device_ds3231::setMonth(unsigned int month){
 	}
 }
 
-int i2c_device_ds3231::getYear(int year){
+int i2c_device_ds3231::getYear(){
 	
 	unsigned int yearOnes;
 	unsigned int yearTens;
