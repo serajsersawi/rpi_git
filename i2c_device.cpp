@@ -134,7 +134,7 @@ void i2c_device::debugDumpRegisters(unsigned int number){
 		cout << HEX(*(registers+i)) << " ";
 		if (i%16==15) cout << endl;
 	}
-	cout << "" << endl;
+	cout << "\n" << endl;
 	cout << dec;
 }
 
