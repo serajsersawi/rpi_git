@@ -303,6 +303,7 @@ unsigned int i2c_device_ds3231::setDate(unsigned int date){
         case 2: // February needs special handling for leap years
             if (isLeapYear && (date > 0 && date < 30)) {
                 isValidDate = true; // Leap year
+			}
             else if ((date > 0 && date < 29){
                 isValidDate = true; // Common year
             }

@@ -118,7 +118,6 @@ public:
 	virtual void displayTimeAndDate();
 	virtual int displayTemperature();
 	
-	virtual void displayTimeAndDate();
 	virtual void changeHrMode(unsigned int mode);
 	virtual void setTimeAndDate(unsigned int hours, unsigned int minutes, unsigned int seconds, unsigned int date, unsigned int month, int year);
 	//time is only set by user in 24 format but it will retain the current format for time
