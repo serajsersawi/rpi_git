@@ -43,6 +43,6 @@ int main() {
    sleep(1);
    rtc.displayTemperature();
    
-   rtc.debugDumpRegisters(12);
+   //rtc.debugDumpRegisters(12);
    return 0;
 }
