@@ -163,9 +163,18 @@ int i2c_device_ds3231::displayTemperature(){
 }
 
 void i2c_device_ds3231::setDate(unsigned int date, unsigned int month, int year){
-	setYear(year);
-	setMonth(month);
-	setDate(date);
+	
+	unsigned int invalidData = 0;
+	validData = setYear(year)
+	+ setMonth(month)
+	+ setDate(date);
+	
+	if(invalidData){
+		//set date to default
+		setYear(2000);
+		setMonth(1);
+		setDate(1);;
+	}
 }
 
 void i2c_device_ds3231::setTime(unsigned int hours, unsigned int minutes, unsigned int seconds){
