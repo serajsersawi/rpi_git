@@ -398,10 +398,10 @@ void i2c_device_ds3231::changeHrMode(unsigned int mode){
 	unsigned int oldRegisterVal = this->readRegister(HOURS_REG);
 	
 	switch(mode){
-		case TWENTYFOUR:
+		case i2c_device_ds3231::TWENTYFOUR:
 		this->writeRegister(HOURS_REG, (oldRegisterVal & !(0x40)));
 		break;
-		case TWELVE:
+		case i2c_device_ds3231::TWELVE:
 		this->writeRegister(HOURS_REG, (oldRegisterVal | (0x40)));
 		break;
 	}
