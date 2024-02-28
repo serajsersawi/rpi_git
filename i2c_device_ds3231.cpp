@@ -122,7 +122,7 @@ void i2c_device_ds3231::displayTimeAndDate(){
 			sprintf(dateTimeStr, "%02d:%02d:%02d   %02d/%02d/%d", hours, minutes, seconds, date, month, year);
 	}
 	
-	cout << dateTimeStr <<endl;
+	cout << dateTimeStr << "\n" <<endl;
 	
 }
 
