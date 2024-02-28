@@ -306,23 +306,18 @@ unsigned int i2c_device_ds3231::setDate(unsigned int date){
 			}
 			break;
         case 2: // February needs special handling for leap years
-            if (isLeapYear && (date > 0 && date < 30)) {
-                isValidDate = true; // Leap year
-				cout << " leap year data correct" <<endl;
+            if (this->isLeapYear) {
+                isValidDate = (date > 0 && date <= 29);
 			}
-            else if (!isLeapYear && (date > 0 && date < 29)){
-				cout << "not leap year data correct" <<endl;
-                isValidDate = true; // Common year
-            }
 			else{
-				cout << "data correct not correct" <<endl;
-				isValidDate = false;
+				isValidDate = (date > 0 && date <= 28);
 			}
 			break;
-        case 1: case 3: case 5: case 7: case 8: case 10: // All other months have 31 days
-            if(date > 0 && date < 32){
-				isValidDate = true;
-			}
+        case 1: case 3: case 5: case 7: case 8: case 10: case 12: // All other months have 31 days
+			isValidDate = (date > 0 && date <= 31);
+			break;
+		default:
+			isValidDate = false;
 			break;
     }
 	
@@ -390,10 +385,9 @@ int i2c_device_ds3231::setYear(int year){
 		
 		if((year % 4 == 0) && (year % 100 != 0 || year % 400 == 0)){
 			this->isLeapYear = true;
-			cout << "set as leap year" <<endl;
 		}
 		else{
-			cout << "set as not leap year" <<endl;
+			this->isLeapYear = false;
 		}
 		int yearTensAndOnes = year % 100;
 		
