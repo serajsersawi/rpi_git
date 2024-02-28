@@ -57,11 +57,11 @@ int main() {
    rtc.displayTimeAndDate();
    
    //31/30 test
-   rtc.setTimeAndDate(14,30,55,30,4,2025)
+   rtc.setTimeAndDate(14,30,55,30,4,2025);
    sleep(1);
    rtc.displayTimeAndDate();
    
-   rtc.setTimeAndDate(14,30,55,31,4,2025)
+   rtc.setTimeAndDate(14,30,55,31,4,2025);
    sleep(1);
    rtc.displayTimeAndDate();
    
