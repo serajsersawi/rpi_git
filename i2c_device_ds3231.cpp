@@ -299,36 +299,44 @@ unsigned int i2c_device_ds3231::getDate(){
 unsigned int i2c_device_ds3231::setDate(unsigned int date){
 	
 	bool isValidDate = false;
-
-	// Assuming 'year' is the year you're setting along with 'date' and 'month'
-	bool isCurrentLeapYear = ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0));
-
 	switch(getMonth()) {
 		case 4: case 6: case 9: case 11: // April, June, September, November have 30 days
-			isValidDate = (date > 0 && date <= 30);
-			break;
-		case 2: // February
-			if (isCurrentLeapYear) {
-				isValidDate = (date > 0 && date <= 29);
-			} else {
-				isValidDate = (date > 0 && date <= 28);
+            if(date > 0 && date < 31){
+				isValidDate = true;
 			}
 			break;
-		case 1: case 3: case 5: case 7: case 8: case 10: case 12: // Months with 31 days
-			isValidDate = (date > 0 && date <= 31);
+        case 2: // February needs special handling for leap years
+            if (isLeapYear && (date > 0 && date < 30)) {
+                isValidDate = true; // Leap year
+				cout << " leap year data correct" <<endl;
+			}
+            else if (!isLeapYear && (date > 0 && date < 29)){
+				cout << "not leap year data correct" <<endl;
+                isValidDate = true; // Common year
+            }
+			else{
+				cout << "data correct not correct" <<endl;
+				isValidDate = false;
+			}
 			break;
-		default:
-			isValidDate = false;
+        case 1: case 3: case 5: case 7: case 8: case 10: // All other months have 31 days
+            if(date > 0 && date < 32){
+				isValidDate = true;
+			}
 			break;
-	}
-
-	if (isValidDate) {
-		this->writeRegister(DATE_REG, decimalToBCD(date));
-		this->date = getDate();
+    }
+	
+	if(isValidDate){
+	
+		this->writeRegister(DATE_REG, (decimalToBCD(date)));
+		this->date = 	getDate();
 		return 0;
-	} else {
+	}
+	
+	else{
 		cerr << "Date out of range or invalid" << endl;
 		return 1;
+		
 	}
 	
 
@@ -385,7 +393,7 @@ int i2c_device_ds3231::setYear(int year){
 			cout << "set as leap year" <<endl;
 		}
 		else{
-			
+			cout << "set as not leap year" <<endl;
 		}
 		int yearTensAndOnes = year % 100;
 		
