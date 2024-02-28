@@ -308,14 +308,15 @@ unsigned int i2c_device_ds3231::setDate(unsigned int date){
         case 2: // February needs special handling for leap years
             if (isLeapYear && (date > 0 && date < 30)) {
                 isValidDate = true; // Leap year
-				cout << " leap year" <<endl;
+				cout << " leap year data correct" <<endl;
 			}
             else if (!isLeapYear && (date > 0 && date < 29)){
-				cout << "not leap year" <<endl;
+				cout << "not leap year data correct" <<endl;
                 isValidDate = true; // Common year
             }
 			else{
-				
+				cout << "data correct not correct" <<endl;
+				isValidDate = false;
 			}
 			break;
         case 1: case 3: case 5: case 7: case 8: case 10: // All other months have 31 days
