@@ -148,9 +148,9 @@ void i2c_device_ds3231::displayTemperature(){
     }
 
     // Convert the raw temperature to Celsius
-    float temperature_celsius = raw_temperature * 0.25;
+    this->temperature = raw_temperature * 0.25;
 	
-	cout << "The temperature is " << temperature_celsius << "°C" << endl;
+	cout << "The temperature is " << this->temperature << "°C" << endl;
 }
 
  
