@@ -310,7 +310,7 @@ unsigned int i2c_device_ds3231::setDate(unsigned int date){
                 isValidDate = true; // Leap year
 				cout << " leap year" <<endl;
 			}
-            else if (date > 0 && date < 29){
+            else if (!isLeapYear && (date > 0 && date < 29)){
 				cout << "not leap year" <<endl;
                 isValidDate = true; // Common year
             }
