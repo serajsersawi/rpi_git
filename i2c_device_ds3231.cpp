@@ -129,12 +129,12 @@ void i2c_device_ds3231::displayTimeAndDate(){
 
 int i2c_device_ds3231::displayTemperature(){
 	
-	//check for BSY status, if cleared then start conversion and read then display
+	//Convert temperature
+	unsigned int oldRegisterVal = this->readRegister(CTRL_REG);
+	this->writeRegister(CTRL_REG, (oldRegisterVal | (0x20)));
+
+	//check for BSY status, if cleared then  read then display
 	if(!(this->readRegister(CTRL_STAT_REG) & 0x04) >> 2){
-		
-		//Convert temperature
-		unsigned int oldRegisterVal = this->readRegister(CTRL_REG);
-		this->writeRegister(CTRL_REG, (oldRegisterVal | (0x20)));
 		
 		// Read the temperature registers
 		unsigned char temp_msb = this->readRegister(TEMP_MSB_REG); // Register 11h
