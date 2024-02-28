@@ -251,8 +251,8 @@ unsigned int i2c_device_ds3231::setHours(unsigned int hours){
 	} 
 	else if(hours > 12 && hours < 24){
 		
-		hourTens = decimal / 10;
-		hourOnes = decimal % 10;
+		hourTens = hours / 10;
+		hourOnes = hours % 10;
 		this->changeHrMode(TWENTYFOUR);
 		this->writeRegister(HOURS_REG, ((oldRegisterVal & 0xC0) | (((hourTens << 4) | hourOnes) & 0x3F)));
 		this->hours   = getHours();
@@ -304,7 +304,7 @@ unsigned int i2c_device_ds3231::setDate(unsigned int date){
             if (isLeapYear && (date > 0 && date < 30)) {
                 isValidDate = true; // Leap year
 			}
-            else if ((date > 0 && date < 29){
+            else if (date > 0 && date < 29){
                 isValidDate = true; // Common year
             }
 			else{
