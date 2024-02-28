@@ -321,7 +321,7 @@ unsigned int i2c_device_ds3231::setDate(unsigned int date){
     }
 	
 	if(isValidDate){
-		cout << "setting date" << endl;
+		cout << "setting date" << date << endl;
 		this->writeRegister(DATE_REG, (decimalToBCD(date) && 0x3F));
 		this->date = 	getDate();
 		return 0;
