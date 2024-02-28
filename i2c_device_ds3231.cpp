@@ -204,7 +204,7 @@ unsigned int i2c_device_ds3231::setSeconds(unsigned int seconds){
 unsigned int i2c_device_ds3231::getMinutes(){return bcdToDec(this->readRegister(MINUTES_REG));}
 
 unsigned int i2c_device_ds3231::setMinutes(unsigned int minutes){
-	if(minutes > -1 && minutes < 60){
+	if(minutes < 60){
 		cout<< "in" <<endl;
 		this->writeRegister(MINUTES_REG, decimalToBCD(minutes));
 		this->minutes = getMinutes();
