@@ -47,5 +47,24 @@ int main() {
    sleep(1);
    rtc.displayTimeAndDate();
    
+   //leap year test
+   rtc.setTimeAndDate(14,30,55,29,10,2024);
+   sleep(1);
+   rtc.displayTimeAndDate();
+   
+   rtc.setTimeAndDate(14,30,55,29,10,2025);
+   sleep(1);
+   rtc.displayTimeAndDate();
+   
+   //31/30 test
+   rtc.setTimeAndDate(14,30,55,30,4,2025)
+   sleep(1);
+   rtc.displayTimeAndDate();
+   
+   rtc.setTimeAndDate(14,30,55,31,4,2025)
+   sleep(1);
+   rtc.displayTimeAndDate();
+   
+   
    return 0;
 }
