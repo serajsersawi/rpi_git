@@ -390,7 +390,7 @@ int i2c_device_ds3231::getYear(){
 
 int i2c_device_ds3231::setYear(int year){
 	
-	if(year > 2000 && year < 2100){
+	if(year >= 2000 && year < 2100){
 		
 		if((year % 4 == 0) && (year % 100 != 0 || year % 400 == 0)){
 			this->isLeapYear = true;
