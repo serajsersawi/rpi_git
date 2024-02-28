@@ -111,7 +111,7 @@ public:
     return tens + ones;
 	}
 	
-	void dumpRegistersWrapper(unsigned int number = 0xff) {
+	void dumpRegisters(unsigned int number = 0xff) {
         debugDumpRegisters(number); // Calls the public function from the base class
     }
 	

@@ -46,7 +46,7 @@ int main() {
    rtc.setTimeAndDate(14,30,55,26,10,2024);
    sleep(1);
    rtc.displayTimeAndDate();
-   rtc.debugDumpRegisters();
+   rtc.dumpRegisters();
    
    //leap year test
    rtc.setTimeAndDate(14,30,55,29,2,2024);
