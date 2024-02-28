@@ -133,8 +133,11 @@ int i2c_device_ds3231::displayTemperature(){
 	unsigned int oldRegisterVal = this->readRegister(CTRL_REG);
 	this->writeRegister(CTRL_REG, (oldRegisterVal | (0x20)));
 
-	//check for BSY status, if cleared then  read then display
-	if(!(this->readRegister(CTRL_STAT_REG) & 0x04) >> 2){
+	//check for BSY status, if cleared then read then display
+	while((this->readRegister(CTRL_STAT_REG) & 0x04) >> 2){
+		//wait untill the BSY bit is cleared
+		//this means conversion is complete and device no longer busy
+	}
 		
 		// Read the temperature registers
 		unsigned char temp_msb = this->readRegister(TEMP_MSB_REG); // Register 11h
@@ -158,12 +161,7 @@ int i2c_device_ds3231::displayTemperature(){
 		
 		cout << "The temperature is " << this->temperature << "°C" << endl;
 		return 0;
-	}
-	else{
-		
-		cout << "TCXO is busy" << endl;
-		return 1;
-	}
+	
 
 }
 
