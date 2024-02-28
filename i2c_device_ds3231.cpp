@@ -169,9 +169,11 @@ void i2c_device_ds3231::setDate(unsigned int date, unsigned int month, int year)
 }
 
 void i2c_device_ds3231::setTime(unsigned int hours, unsigned int minutes, unsigned int seconds){
-	setHours(hours);
-	setMinutes(minutes);
 	setSeconds(seconds);
+	setMinutes(minutes);
+	setHours(hours);
+	
+	
 }
 
 void i2c_device_ds3231::setTimeAndDate(unsigned int hours, unsigned int minutes, unsigned int seconds, unsigned int date, unsigned int month, int year){
