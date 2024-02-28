@@ -42,13 +42,13 @@ int main() {
    rtc.displayTemperature();
 
    rtc.setTime(13,30,0);
-   usleep(1000);
+   sleep(1);
    rtc.displayTimeAndDate();
    rtc.setTime(28,2,2024);
-   usleep(1000);
+   sleep(1);
    rtc.displayTimeAndDate();
    rtc.setTimeAndDate(14,35,3,10,10,2024);
-   usleep(1000);
+   sleep(1);
    rtc.displayTimeAndDate();
    
    return 0;
