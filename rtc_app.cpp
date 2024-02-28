@@ -43,7 +43,7 @@ int main() {
 
    sleep(1);
 
-   rtc.setTimeAndDate(14,30,55,16,10,2024);
+   rtc.setTimeAndDate(14,30,55,26,10,2024);
    sleep(1);
    rtc.displayTimeAndDate();
    
