@@ -99,7 +99,7 @@ public:
 	virtual void displayTimeAndDate();
 	virtual void changeHrMode(unsigned int mode);
 	
-	virtual void displayTemperature();
+	virtual int displayTemperature();
 	virtual ~i2c_device_ds3231();
 };
 

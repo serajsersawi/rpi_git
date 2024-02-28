@@ -127,30 +127,44 @@ void i2c_device_ds3231::displayTimeAndDate(){
 
 }
 
-void i2c_device_ds3231::displayTemperature(){
+int i2c_device_ds3231::displayTemperature(){
 	
+	//check for BSY status, if cleared then start conversion and read then display
+	if(!(this->readRegister(CTRL_STAT_REG) & 0x04) >> 2){
+		
+		//Convert temperature
+		unsigned int oldRegisterVal = this->readRegister(CTRL_REG);
+		this->writeRegister(CTRL_REG, (oldRegisterVal | (0x20)));
+		
+		// Read the temperature registers
+		unsigned char temp_msb = this->readRegister(TEMP_MSB_REG); // Register 11h
+		unsigned char temp_lsb = this->readRegister(TEMP_LSB_REG); // Register 12h
 
-    // Read the temperature registers
-    unsigned char temp_msb = this->readRegister(TEMP_MSB_REG); // Register 11h
-    unsigned char temp_lsb = this->readRegister(TEMP_LSB_REG); // Register 12h
+		// Combine the MSB and the top two bits of the LSB to get the 10-bit raw temperature value
+		int raw_temperature = ((temp_msb << 2) | (temp_lsb >> 6));
 
-    // Combine the MSB and the top two bits of the LSB to get the 10-bit raw temperature value
-    int raw_temperature = ((temp_msb << 2) | (temp_lsb >> 6));
+		// Check if the temperature is negative
+		bool negative = temp_msb & 0x80; // Check sign bit
 
-    // Check if the temperature is negative
-    bool negative = temp_msb & 0x80; // Check sign bit
+		// If negative, we must convert the 10-bit value from 2's complement to a negative decimal
+		if (negative) {
+			// Invert and add 1 to get the two's complement
+			raw_temperature = ~raw_temperature & 0x3FF; // Mask to 10 bits
+			raw_temperature = (raw_temperature + 1) * -1;
+		}
 
-    // If negative, we must convert the 10-bit value from 2's complement to a negative decimal
-    if (negative) {
-        // Invert and add 1 to get the two's complement
-        raw_temperature = ~raw_temperature & 0x3FF; // Mask to 10 bits
-        raw_temperature = (raw_temperature + 1) * -1;
-    }
+		// Convert the raw temperature to Celsius
+		this->temperature = raw_temperature * 0.25;
+		
+		cout << "The temperature is " << this->temperature << "°C" << endl;
+		return 0;
+	}
+	else{
+		
+		cout << "TCXO is busy" << endl;
+		return 1;
+	}
 
-    // Convert the raw temperature to Celsius
-    this->temperature = raw_temperature * 0.25;
-	
-	cout << "The temperature is " << this->temperature << "°C" << endl;
 }
 
  
