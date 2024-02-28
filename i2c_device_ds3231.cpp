@@ -171,6 +171,7 @@ void i2c_device_ds3231::setDate(unsigned int date, unsigned int month, int year)
 	
 	if(invalidData){
 		//set date to default
+		cerr << "Setting date back to 01/01/2000" << endl;
 		setYear(2000);
 		setMonth(1);
 		setDate(1);;
@@ -178,9 +179,20 @@ void i2c_device_ds3231::setDate(unsigned int date, unsigned int month, int year)
 }
 
 void i2c_device_ds3231::setTime(unsigned int hours, unsigned int minutes, unsigned int seconds){
-	setSeconds(seconds);
-	setMinutes(minutes);
-	setHours(hours);
+	
+	unsigned int invalidData = 0;
+	invalidData = setSeconds(seconds)
+	+ setMinutes(minutes)
+	+ setHours(hours);
+	
+	if(invalidData){
+		//set date to default
+		cerr << "Setting time back to 00:00:00" << endl;
+		setYear(0);
+		setMonth(0);
+		setDate(0);;
+	}
+	
 	
 	
 }
