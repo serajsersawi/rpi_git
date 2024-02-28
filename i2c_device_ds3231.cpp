@@ -165,7 +165,7 @@ int i2c_device_ds3231::displayTemperature(){
 void i2c_device_ds3231::setDate(unsigned int date, unsigned int month, int year){
 	
 	unsigned int invalidData = 0;
-	validData = setYear(year)
+	invalidData = setYear(year)
 	+ setMonth(month)
 	+ setDate(date);
 	
