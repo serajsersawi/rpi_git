@@ -390,6 +390,7 @@ int i2c_device_ds3231::setYear(int year){
 		
 		if((year % 4 == 0) && (year % 100 != 0 || year % 400 == 0)){
 			this->isLeapYear = true;
+			cout << "set as leap year" <<endl;
 		}	
 		int yearTensAndOnes = year % 100;
 		
