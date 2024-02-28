@@ -195,6 +195,7 @@ unsigned int i2c_device_ds3231::setSeconds(unsigned int seconds){
 	}
 	else{
 		cerr << "Seconds out of range (00-59)" << endl;
+		return 1;
 	}
 }
 
@@ -208,6 +209,7 @@ unsigned int i2c_device_ds3231::setMinutes(unsigned int minutes){
 	}
 	else{
 		cerr << "Minutes out of range (00-59)" << endl;
+		return 1;
 	}
 }
 
