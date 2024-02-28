@@ -205,7 +205,6 @@ unsigned int i2c_device_ds3231::getMinutes(){return bcdToDec(this->readRegister(
 
 unsigned int i2c_device_ds3231::setMinutes(unsigned int minutes){
 	if(minutes < 60){
-		cout<< "in" <<endl;
 		this->writeRegister(MINUTES_REG, decimalToBCD(minutes));
 		this->minutes = getMinutes();
 		return 0;
@@ -322,6 +321,7 @@ unsigned int i2c_device_ds3231::setDate(unsigned int date){
     }
 	
 	if(isValidDate){
+		cout << "setting date" << endl;
 		this->writeRegister(DATE_REG, (decimalToBCD(date) && 0x3F));
 		this->date = 	getDate();
 		return 0;
@@ -387,7 +387,6 @@ int i2c_device_ds3231::setYear(int year){
 		}	
 		int yearTensAndOnes = year % 100;
 		
-		cout << "yearTensAndOnes" << yearTensAndOnes << endl;
 		
 		this->writeRegister(YEAR_REG, (decimalToBCD(yearTensAndOnes)));
 		this->year = 	getYear();
