@@ -113,7 +113,7 @@ public:
 	
 	void dumpRegisters(unsigned int number = 0xff) {
         debugDumpRegisters(number); // Calls the public function from the base class
-		cout << "" << endl;
+
     }
 	
 	static unsigned char decimalToBCD(int decimal);
