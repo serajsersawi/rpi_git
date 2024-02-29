@@ -66,6 +66,9 @@ int main() {
    sleep(1);
    rtc.displayTimeAndDate();
    
+   sleep(1);
+   startSquareWave(i2c_device_ds3231::WAVE_1);
+   
    
    return 0;
 }

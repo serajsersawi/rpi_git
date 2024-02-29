@@ -56,7 +56,7 @@ public:
 		WAVE_2,	//1.024kHz
 		WAVE_3, //4.096kHz
 		WAVE_4	//8.192kHz 
-		};
+	};
 	enum RUNCLK_STATE{CLOCK_HALT, CLOCK_RUN};
 	/*This enum is redundant, the register map in the cpp file is used instead*/
 	
@@ -150,6 +150,8 @@ public:
 	//time is only set by user in 24 format but it will retain the current format for time
 	virtual void setTime(unsigned int hours, unsigned int minutes, unsigned int seconds);
 	virtual void setDate(unsigned int date, unsigned int month, int year);
+	virtual void startSquareWave(SQR_WAVES wave);
+/* 	virtual void stopSquareWave(); */
 	
 	virtual ~i2c_device_ds3231();
 };

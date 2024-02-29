@@ -74,6 +74,42 @@ int i2c_device_ds3231::initUpdateAllRegisters(){
 
 /*********************************************************************************************/
 
+void i2c_device_ds3231::startSquareWave(SQR_WAVES wave){
+	
+	unsigned int RegisterVal = this->readRegister(CTRL_REG);
+	//set the BBSQW bit
+	RegisterVal |= (1 << 6);
+	//reset the INTCN bit
+	RegisterVal &= ~(1 << 6);
+	//set RS1 and RS2 bits
+	RegisterVal &= ~(wave << 2);
+	this->writeRegister(CTRL_REG, (RegisterVal));
+	
+	switch(wave){
+		
+		case WAVE_1:
+		cout << "Square wave output frequency: 1 Hz " << "\n" << endl;
+		break;
+		
+		case WAVE_2:
+		cout << "Square wave output frequency: 1.024 kHz " << "\n" << endl;
+		break;
+		
+		case WAVE_3:
+		cout << "Square wave output frequency: 4.096 kHz " << "\n" << endl;
+		break;
+		
+		case WAVE_4:
+		cout << "Square wave output frequency: 8.192 kHz " << "\n" << endl;
+		break;
+		
+		default:
+		cerr << "Invalid wave input! setting wave frequency to 1Hz" << endl;
+		break;
+		
+	}
+	
+}
 
  
 void i2c_device_ds3231::displayTimeAndDate(){
@@ -171,8 +207,6 @@ void i2c_device_ds3231::setTime(unsigned int hours, unsigned int minutes, unsign
 		setDate(0);;
 	}
 	
-	
-	
 }
 
 void i2c_device_ds3231::setTimeAndDate(unsigned int hours, unsigned int minutes, unsigned int seconds, unsigned int date, unsigned int month, int year){
@@ -180,10 +214,6 @@ void i2c_device_ds3231::setTimeAndDate(unsigned int hours, unsigned int minutes,
 	setTime(hours, minutes, seconds);
 	
 }
-
-
-
-
  
 unsigned int i2c_device_ds3231::getSeconds(){return bcdToDec(this->readRegister(SECONDS_REG));}
 
