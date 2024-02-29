@@ -80,7 +80,7 @@ void i2c_device_ds3231::startSquareWave(SQR_WAVES wave){
 	//set the BBSQW bit
 	RegisterVal |= (1 << 6);
 	//reset the INTCN bit
-	RegisterVal &= ~(1 << 6);
+	RegisterVal &= ~(1 << 2);
 	//set RS1 and RS2 bits
 	cout << "wave input: " << wave << endl;
 	RegisterVal &= ~(wave << 3);
