@@ -10,29 +10,7 @@
 using namespace std;
 
 namespace i2c {
-
-//From fig 1. of the DS3231 Data sheet (page 11)
-//Register address mapping
-//Since the addresses are sequential, an enum can also be used.
-#define SECONDS_REG        		0x00  
-#define MINUTES_REG    	   		0x01  
-#define HOURS_REG          		0x02  
-#define DAY_REG            		0x03  
-#define DATE_REG           		0x04  
-#define MONTH_CENT_REG     		0x05  
-#define YEAR_REG           		0x06  
-#define ALARM1_SEC_REG     		0x07  
-#define ALARM1_MIN_REG     		0x08  
-#define ALARM1_HR_REG           0x09  
-#define ALARM1_DAY_DATE_REG     0x0A  
-#define ALARM2_MIN_REG     		0x0B  
-#define ALARM2_HR_REG      		0x0C  
-#define ALARM2_DAY_DATE_REG    	0x0D  
-#define CTRL_REG           		0x0E  
-#define CTRL_STAT_REG      		0x0F  
-#define AGING_OFFSET_REG   		0x10  
-#define TEMP_MSB_REG       		0x11  
-#define TEMP_LSB_REG       		0x12  
+ 
 
 /**
  * The constructor for the ADXL345 accelerometer object. It passes the bus number and the
