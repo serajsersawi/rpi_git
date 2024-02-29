@@ -52,7 +52,7 @@ class i2c_device_ds3231:protected i2c_device{
 public:
 	enum MAP {SECOND, MINUTE, HOUR, DAY_OF_WEEK, DATE, MONTH, YEAR, CONTROL, CONTROL_STATUS, AGING_OFFSET, ALARM1, ALARM2, ALARMS, TEMPERATURE, TIME, ALL};
 	enum SQR_WAVES {
-		WAVE_1, //1KHz
+		WAVE_1 = 0, //1KHz
 		WAVE_2,	//1.024kHz
 		WAVE_3, //4.096kHz
 		WAVE_4	//8.192kHz 
