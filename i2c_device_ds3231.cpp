@@ -59,13 +59,13 @@ int i2c_device_ds3231::initUpdateAllRegisters(){
 
    int check = 0;
    
-   check += (this->writeRegister(SECONDS_REG, DS3231_REGISTER_SECONDS_DEFAULT)); //Seconds: 00
-   check += (this->writeRegister(MINUTES_REG, DS3231_REGISTER_MINUTES_DEFAULT)); //Minutes: 00
-   check += (this->writeRegister(HOURS_REG, DS3231_REGISTER_HOURS_DEFAULT)); //Hours: 00 | 24hr format
-   check += (this->writeRegister(DAY_REG, DS3231_REGISTER_DAY_OF_WEEK_DEFAULT)); //User defined 01 Monday
-   check += (this->writeRegister(MONTH_CENT_REG, DS3231_REGISTER_MONTH_DEFAULT)); //01
-   check += (this->writeRegister(DATE_REG, DS3231_REGISTER_DATE_DEFAULT)); //01
-   check += (this->writeRegister(YEAR_REG, DS3231_REGISTER_YEAR_DEFAULT)); //2000
+   check += (this->writeRegister(SECONDS_REG, SECONDS_DEFAULT)); //Seconds: 00
+   check += (this->writeRegister(MINUTES_REG, MINUTES_DEFAULT)); //Minutes: 00
+   check += (this->writeRegister(HOURS_REG, HOURS_DEFAULT)); //Hours: 00 | 24hr format
+   check += (this->writeRegister(DAY_REG, DAY_OF_WEEK_DEFAULT)); //User defined 01 Monday
+   check += (this->writeRegister(MONTH_CENT_REG, MONTH_DEFAULT)); //01
+   check += (this->writeRegister(DATE_REG, DATE_DEFAULT)); //01
+   check += (this->writeRegister(YEAR_REG, YEAR_DEFAULT)); //2000
    
    return check;
 }
@@ -73,7 +73,26 @@ int i2c_device_ds3231::initUpdateAllRegisters(){
 
 
 /*********************************************************************************************/
+void i2c_device_ds3231::setAlarm1(ALARM_TYPE A1_dom_dow, unsigned int A1_match_mode, unsigned int A1_date, unsigned int A1_day, unsigned int A1_hours, unsigned int A1_minutes, unsigned int A1_seconds){
+	
+	//unsigned int RegisterVal = this->readRegister();
+	//setting mask bits
+	this->writeRegister(ALARM1_DAY_DATE_REG, ((A1_match_mode >> 3) & 0x01) << 7 ); //A1M4
 
+	this->writeRegister(ALARM1_HR_REG	   , ((A1_match_mode >> 2) & 0x01) << 7 ); //A1M3
+	if(A1_dom_dow)
+		this->writeRegister(ALARM1_MIN_REG	   , (((A1_match_mode >> 1) & 0x01) << 7) | 0x40 ); //A1M2 DOW
+	else
+		this->writeRegister(ALARM1_MIN_REG	   , (((A1_match_mode >> 1) & 0x01) << 7) & (~(0x40)) ); //A1M2 DOM	
+	this->writeRegister(ALARM1_SEC_REG     , ((A1_match_mode >> 0) & 0x01) << 7 ); //A1M1
+	
+	setAlarm1Time(A1_hours, A1_minutes, A1_seconds);
+	setAlarm1DayDate(A1_date, A1_day, A1_dom_dow);
+	
+	enableAlarm1();
+	
+	
+}
 void i2c_device_ds3231::startSquareWave(SQR_WAVES wave){
 	
 	unsigned int RegisterVal = this->readRegister(CTRL_REG);
@@ -118,6 +137,14 @@ void i2c_device_ds3231::stopSquareWave(){
 	//set the INTCN bit
 	RegisterVal |= (1 << 2);
 	
+	this->writeRegister(CTRL_REG, (RegisterVal));
+}
+
+void i2c_device_ds3231::enableAlarm1(){
+	stopSquareWave();
+	unsigned int RegisterVal = this->readRegister(CTRL_REG);
+	//enable interrupt
+	RegisterVal |= (1 << 0);
 	this->writeRegister(CTRL_REG, (RegisterVal));
 }
 
@@ -191,32 +218,64 @@ void i2c_device_ds3231::setDate(unsigned int date, unsigned int month, int year)
 	unsigned int invalidData = 0;
 	invalidData = setYear(year)
 	+ setMonth(month)
-	+ setDate(date);
+	+ setDate(date, DATE_REG);
 	
 	if(invalidData){
 		//set date to default
 		cerr << "Setting date back to 01/01/2000" << endl;
 		setYear(2000);
 		setMonth(1);
-		setDate(1);;
+		setDate(1, DATE_REG);
+	}
+}
+
+void i2c_device_ds3231::setAlarm1DayDate(unsigned int A1_date, unsigned int A1_day, ALARM_TYPE A1_dom_dow){
+	unsigned int invalidData = 0;
+	
+	if(A1_dom_dow)//day of week
+		invalidData = setDay(A1_day, ALARM1_DAY_DATE_REG);
+	else
+		invalidData = setDate(A1_date, ALARM1_DAY_DATE_REG);
+	
+	
+	if(invalidData){
+		//set date to default
+		cerr << "Setting date/day back to 1" << endl;
+		setDate(1, ALARM1_DAY_DATE_REG);
 	}
 }
 
 void i2c_device_ds3231::setTime(unsigned int hours, unsigned int minutes, unsigned int seconds){
 	
 	unsigned int invalidData = 0;
-	invalidData = setSeconds(seconds)
-	+ setMinutes(minutes)
-	+ setHours(hours);
+	invalidData = setSeconds(seconds, SECONDS_REG)
+	+ setMinutes(minutes, MINUTES_REG)
+	+ setHours(hours, HOURS_REG);
 	
 	if(invalidData){
 		//set date to default
 		cerr << "Setting time back to 00:00:00" << endl;
-		setYear(0);
-		setMonth(0);
-		setDate(0);;
+		setSeconds(0, SECONDS_REG);
+		setMinutes(0, MINUTES_REG);
+		setHours(0, HOURS_REG);
 	}
 	
+}
+
+void i2c_device_ds3231::setAlarm1Time(unsigned int A1_hours, unsigned int A1_minutes, unsigned int A1_seconds){
+	
+	unsigned int invalidData = 0;
+	invalidData = setSeconds(A1_seconds, ALARM1_SEC_REG)
+	+ setMinutes(A1_minutes, ALARM1_MIN_REG)
+	+ setHours(A1_hours, ALARM1_HR_REG);
+	
+	if(invalidData){
+		//set date to default
+		cerr << "Setting alarm1 back to 00:00:00" << endl;
+		setSeconds(0, ALARM1_SEC_REG);
+		setMinutes(0, ALARM1_MIN_REG);
+		setHours(0, ALARM1_HR_REG);
+	}
 }
 
 void i2c_device_ds3231::setTimeAndDate(unsigned int hours, unsigned int minutes, unsigned int seconds, unsigned int date, unsigned int month, int year){
@@ -227,7 +286,26 @@ void i2c_device_ds3231::setTimeAndDate(unsigned int hours, unsigned int minutes,
  
 unsigned int i2c_device_ds3231::getSeconds(){return bcdToDec(this->readRegister(SECONDS_REG));}
 
-unsigned int i2c_device_ds3231::setSeconds(unsigned int seconds){
+unsigned int i2c_device_ds3231::setSeconds(unsigned int seconds, unsigned int reg);{
+	
+	unsigned int targetRegister = SECONDS_REG;
+	switch (reg){
+		case RTC_REGS:
+			targetRegister = SECONDS_REG;
+			break;
+		case ALARM1_REGS:
+			targetRegister = ALARM1_SEC_REG;
+			break;
+		case ALARM2_REGS:
+			cerr << "Invalid register input!" << endl;
+			//targetRegister = SECONDS_REG;
+			return 1;
+			break;	
+		default:
+			cerr << "Invalid register input!" << endl;
+			//targetRegister = SECONDS_REG;
+			return 1;
+	}
 	if(seconds < 60){
 		this->writeRegister(SECONDS_REG, decimalToBCD(seconds));
 		//update the object 
@@ -242,10 +320,27 @@ unsigned int i2c_device_ds3231::setSeconds(unsigned int seconds){
 
 unsigned int i2c_device_ds3231::getMinutes(){return bcdToDec(this->readRegister(MINUTES_REG));}
 
-unsigned int i2c_device_ds3231::setMinutes(unsigned int minutes){
+unsigned int i2c_device_ds3231::setMinutes(unsigned int minutes, unsigned int reg){
+	
+	unsigned int targetRegister = MINUTES_REG;
+	switch (reg){
+		case RTC_REGS:
+			targetRegister = MINUTES_REG;
+			break;
+		case ALARM1_REGS:
+			targetRegister = ALARM1_MIN_REG;
+			break;
+		case ALARM2_REGS:
+			targetRegister = ALARM2_MIN_REG;
+			break;	
+		default:
+			cerr << "Invalid register input!" << endl;
+			//targetRegister = MINUTES_REG;
+			return 1;
+	}
 	if(minutes < 60){
-		this->writeRegister(MINUTES_REG, decimalToBCD(minutes));
-		this->minutes = getMinutes();
+unsigned int oldRegisterVal = this->readRegister(targetRegister);
+		this->writeRegister(targetRegister, ((oldRegisterVal) & (~(0x9F))) | ((decimalToBCD(minutes)) & 0x9F));
 		return 0;
 	}
 	else{
@@ -278,17 +373,33 @@ unsigned int i2c_device_ds3231::getHours(){
 
 //this function will accept hours 0 - 12 and not change anything 
 //if the hour is greater than 12 till 24 wil accept it and make sure system is 24
-unsigned int i2c_device_ds3231::setHours(unsigned int hours){
+unsigned int i2c_device_ds3231::setHours(unsigned int hours, unsigned int reg){
 	
+	unsigned int targetRegister = HOURS_REG;
+	switch (reg){
+		case RTC_REGS:
+			targetRegister = DAY_REG;
+			break;
+		case ALARM1_REGS:
+			targetRegister = ALARM1_HR_REG;
+			break;
+		case ALARM2_REGS:
+			targetRegister = ALARM2_HR_REG;
+			break;	
+		default:
+			cerr << "Invalid register input!" << endl;
+			//targetRegister = HOURS_REG;
+			return 1;
+	}
 	unsigned int hourTens;
 	unsigned int hourOnes;
-	unsigned int oldRegisterVal = this->readRegister(HOURS_REG);
+	unsigned int oldRegisterVal = this->readRegister(targetRegister);
 	
 	if(hours > -1 && hours < 13){
 		//will write to the register and leave everything else unchanged
 		hourTens = hours / 10;
 		hourOnes = hours % 10;
-		this->writeRegister(HOURS_REG, ((oldRegisterVal & 0xE0) | (((hourTens << 4) | hourOnes) & 0x1F)));
+		this->writeRegister(targetRegister, ((oldRegisterVal & 0xE0) | (((hourTens << 4) | hourOnes) & 0x1F)));
 		this->hours   = getHours();
 		return 0;
 	} 
@@ -297,7 +408,7 @@ unsigned int i2c_device_ds3231::setHours(unsigned int hours){
 		hourTens = hours / 10;
 		hourOnes = hours % 10;
 		this->changeHrMode(TWENTYFOUR);
-		this->writeRegister(HOURS_REG, ((oldRegisterVal & 0xC0) | (((hourTens << 4) | hourOnes) & 0x3F)));
+		this->writeRegister(targetRegister, ((oldRegisterVal & 0xC0) | (((hourTens << 4) | hourOnes) & 0x3F)));
 		this->hours   = getHours();
 		return 0;
 	}
@@ -312,9 +423,28 @@ unsigned int i2c_device_ds3231::setHours(unsigned int hours){
 
 unsigned int i2c_device_ds3231::getDay(){return bcdToDec(this->readRegister(DAY_REG));}
 
-unsigned int i2c_device_ds3231::setDay(unsigned int day){
+unsigned int i2c_device_ds3231::setDay(unsigned int day, unsigned int reg){
+	
+	unsigned int targetRegister = DAY_REG;
+	switch (reg){
+		case RTC_REGS:
+			targetRegister = DAY_REG;
+			break;
+		case ALARM1_REGS:
+			targetRegister = ALARM1_DAY_DATE_REG;
+			break;
+		case ALARM2_REGS:
+			targetRegister = ALARM2_DAY_DATE_REG;
+			break;	
+		default:
+			cerr << "Invalid register input!" << endl;
+			//targetRegister = DATE_REG;
+			return 1;
+	}
+	
 	if(day > 0 && minutes < 8){
-		this->writeRegister(DAY_REG, (decimalToBCD(day) & 0x07));
+		unsigned int oldRegisterVal = this->readRegister(targetRegister);
+		this->writeRegister(targetRegister, ((oldRegisterVal) & (~(0x0F))) | ((decimalToBCD(day)) & 0x0F));
 		this->day = 	getDay();
 		return 0;
 	}
@@ -335,7 +465,25 @@ unsigned int i2c_device_ds3231::getDate(){
 	return dateOnes + dateTens;
 }
 
-unsigned int i2c_device_ds3231::setDate(unsigned int date){
+unsigned int i2c_device_ds3231::setDate(unsigned int date, unsigned int reg){
+	
+	//according to which register is being manipulated 
+	unsigned int targetRegister = DATE_REG;
+	switch (reg){
+		case RTC_REGS:
+			targetRegister = DATE_REG;
+			break;
+		case ALARM1_REGS:
+			targetRegister = ALARM1_DAY_DATE_REG;
+			break;
+		case ALARM2_REGS:
+			targetRegister = ALARM2_DAY_DATE_REG;
+			break;	
+		default:
+			cerr << "Invalid register input!" << endl;
+			//targetRegister = DATE_REG;
+			return 1;
+	}
 	
 	bool isValidDate = false;
 	switch(getMonth()) {
@@ -361,8 +509,8 @@ unsigned int i2c_device_ds3231::setDate(unsigned int date){
     }
 	
 	if(isValidDate){
-	
-		this->writeRegister(DATE_REG, (decimalToBCD(date)));
+		unsigned int oldRegisterVal = this->readRegister(targetRegister);
+		this->writeRegister(targetRegister, ((oldRegisterVal) & (~(0x3F))) | ((decimalToBCD(date)) & 0x3F));
 		this->date = 	getDate();
 		return 0;
 	}

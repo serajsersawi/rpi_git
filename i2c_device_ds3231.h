@@ -28,29 +28,41 @@
 #define TEMP_MSB_REG       		0x11  
 #define TEMP_LSB_REG       		0x12 
 
-#define DS3231_REGISTER_SECONDS_DEFAULT                       0X00
-#define DS3231_REGISTER_MINUTES_DEFAULT                       0X00
-#define DS3231_REGISTER_HOURS_DEFAULT                         0X00
-#define DS3231_REGISTER_DAY_OF_WEEK_DEFAULT                   0X01
-#define DS3231_REGISTER_DATE_DEFAULT                          0X01
-#define DS3231_REGISTER_MONTH_DEFAULT                         0X01
-#define DS3231_REGISTER_YEAR_DEFAULT                          0X00
-#define DS3231_REGISTER_ALARM1_SECONDS_DEFAULT                0X00
-#define DS3231_REGISTER_ALARM1_MINUTES_DEFAULT                0X00            
-#define DS3231_REGISTER_ALARM1_HOURS_DEFAULT                  0X00
-#define DS3231_REGISTER_ALARM1_DAY_OF_WEEK_OR_DATE_DEFAULT    0X00
-#define DS3231_REGISTER_ALARM2_MINUTES_DEFAULT                0X00
-#define DS3231_REGISTER_ALARM2_HOURS_DEFAULT                  0X00    
-#define DS3231_REGISTER_ALARM2_DAY_OF_WEEK_OR_DATE_DEFAULT    0X00
-#define DS3231_REGISTER_CONTROL_DEFAULT                       0X1C
-#define DS3231_REGISTER_CONTROL_STATUS_DEFAULT                0X00
-#define DS3231_REGISTER_AGING_OFFSET_DEFAULT                  0X00
+#define SECONDS_DEFAULT                       0X00
+#define MINUTES_DEFAULT                       0X00
+#define HOURS_DEFAULT                         0X00
+#define DAY_OF_WEEK_DEFAULT                   0X01
+#define DATE_DEFAULT                          0X01
+#define MONTH_DEFAULT                         0X01
+#define YEAR_DEFAULT                          0X00
+#define ALARM1_SECONDS_DEFAULT                0X00
+#define ALARM1_MINUTES_DEFAULT                0X00            
+#define ALARM1_HOURS_DEFAULT                  0X00
+#define ALARM1_DAY_OF_WEEK_OR_DATE_DEFAULT    0X00
+#define ALARM2_MINUTES_DEFAULT                0X00
+#define ALARM2_HOURS_DEFAULT                  0X00    
+#define ALARM2_DAY_OF_WEEK_OR_DATE_DEFAULT    0X00
+#define CONTROL_DEFAULT                       0X1C
+#define CONTROL_STATUS_DEFAULT                0X00
+#define AGING_OFFSET_DEFAULT                  0X00
+
+//alarm match modes
+#define ONCE_PER_SECOND	0x0F
+#define S_MATCH			0x0E
+#define MS_MATCH		0x0C
+#define HMS_MATCH		0x08
+#define DHMS_MATCH		0x00
+
+#define RTC_REGS			0x00
+#define ALARM1_REGS		0x01
+#define ALARM2_REGS		0x02
+
+
 
 namespace i2c {
 	
 class i2c_device_ds3231:protected i2c_device{
 public:
-	enum MAP {SECOND, MINUTE, HOUR, DAY_OF_WEEK, DATE, MONTH, YEAR, CONTROL, CONTROL_STATUS, AGING_OFFSET, ALARM1, ALARM2, ALARMS, TEMPERATURE, TIME, ALL};
 	enum SQR_WAVES {
 		WAVE_1 = 0, //1KHz
 		WAVE_2,	//1.024kHz
@@ -58,14 +70,11 @@ public:
 		WAVE_4	//8.192kHz 
 	};
 	enum RUNCLK_STATE{CLOCK_HALT, CLOCK_RUN};
-	/*This enum is redundant, the register map in the cpp file is used instead*/
-	
 	// bit 6 of the hours register
 	enum HOUR_MODE { 
 		TWENTYFOUR,
 		TWELVE
 	};
-	
 	enum AFTER_BEFORE_NOON { 
 		AM,
 		PM
@@ -81,11 +90,16 @@ public:
 		SATURDAY,
 		SUNDAY
 	};
-	
 	enum STATUS { 
 		OK,
 		ERROR
 	};
+	//Alarm type
+	enum ALARM_TYPE {
+		DAY_OF_MONTH = 0, //DT*
+		DAY_OF_WEEK	  //DY	 
+	};
+	
 private:
 	/*private function*/
 	unsigned int I2CBus, I2CAddress;
@@ -112,14 +126,19 @@ private:
 	virtual unsigned int getMonth();
 	virtual int			 getYear();
 	
-	virtual unsigned int setSeconds	(unsigned int seconds);
-	virtual unsigned int setMinutes	(unsigned int minutes);
-	virtual unsigned int setHours	(unsigned int hours);
-	virtual unsigned int setDay		(unsigned int day);
-	virtual unsigned int setDate	(unsigned int date);
+	//accepting the register as a parameter allows those function to be valid for all types of registers
+	//this was an update while working on the alarms 
+	virtual unsigned int setSeconds	(unsigned int seconds, unsigned int reg);
+	virtual unsigned int setMinutes	(unsigned int minutes, unsigned int reg);
+	virtual unsigned int setHours	(unsigned int hours, unsigned int reg);
+	virtual unsigned int setDay		(unsigned int day, unsigned int reg);
+	virtual unsigned int setDate	(unsigned int date, unsigned int reg);
 	virtual unsigned int setMonth	(unsigned int month);
 	virtual int			 setYear	(int year);
 	
+	virtual void enableAlarm1();
+	virtual void setAlarm1Time(unsigned int A1_hours, unsigned int A1_minutes, unsigned int A1_seconds);
+	virtual void setAlarm1DayDate(unsigned int A1_date, unsigned int A1_day, ALARM_TYPE A1_dom_dow);
 	
 public:
 	/*public functions APIs*/
@@ -152,6 +171,8 @@ public:
 	virtual void setDate(unsigned int date, unsigned int month, int year);
 	virtual void startSquareWave(SQR_WAVES wave);
  	virtual void stopSquareWave(); 
+	
+	virtual void setAlarm1(ALARM_TYPE A1_dom_dow, unsigned int A1_match_mode, unsigned int A1_date, unsigned int A1_day, unsigned int A1_hours, unsigned int A1_minutes, unsigned int A1_seconds);
 	
 	virtual ~i2c_device_ds3231();
 };
