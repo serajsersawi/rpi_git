@@ -72,7 +72,7 @@ int main() {
    sleep(5);
    rtc.stopSquareWave();
    
-   setAlarm1(i2c_device_ds3231::DAY_OF_MONTH, MS_MATCH, 1, 1, 21, 55, 0); 
+   rtc.setAlarm1(i2c_device_ds3231::DAY_OF_MONTH, MS_MATCH, 1, 1, 21, 55, 0); 
    
    
    return 0;
