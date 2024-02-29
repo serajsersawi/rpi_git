@@ -39,13 +39,13 @@ i2c_device_ds3231::i2c_device_ds3231(unsigned int I2CBus, unsigned int I2CAddres
 	this->I2CAddress = I2CAddress;
 	this->I2CBus = I2CBus;
 	
-	this->seconds = DS3231_REGISTER_SECONDS_DEFAULT;
-	this->minutes = DS3231_REGISTER_MINUTES_DEFAULT;
-	this->hours = DS3231_REGISTER_HOURS_DEFAULT;
-	this->day = DS3231_REGISTER_DAY_OF_WEEK_DEFAULT;
-	this->date = DS3231_REGISTER_DATE_DEFAULT;
-	this->month = DS3231_REGISTER_MONTH_DEFAULT;
-	this->year = DS3231_REGISTER_YEAR_DEFAULT;
+	this->seconds = SECONDS_DEFAULT;
+	this->minutes = MINUTES_DEFAULT;
+	this->hours = HOURS_DEFAULT;
+	this->day = DAY_OF_WEEK_DEFAULT;
+	this->date = DATE_DEFAULT;
+	this->month = MONTH_DEFAULT;
+	this->year = YEAR_DEFAULT;
 	
 	this->hr_mode = i2c_device_ds3231::TWENTYFOUR;
 	this->wave = i2c_device_ds3231::WAVE_2;
