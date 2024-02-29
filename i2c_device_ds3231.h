@@ -93,6 +93,7 @@ private:
 	i2c_device_ds3231::HOUR_MODE hr_mode;
 	i2c_device_ds3231::AFTER_BEFORE_NOON am_pm;
 	i2c_device_ds3231::SQR_WAVES wave;
+	i2c_device_ds3231::RUNCLK_STATE clk;
 	
 	//they are always in decimal format
 	unsigned int seconds, minutes, hours, day, date, month; // raw 2's complement values
