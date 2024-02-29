@@ -82,7 +82,6 @@ void i2c_device_ds3231::startSquareWave(SQR_WAVES wave){
 	//reset the INTCN bit
 	RegisterVal &= ~(1 << 2);
 	//set RS1 and RS2 bits
-	cout << "wave input: " << wave << endl;
 	RegisterVal |= (wave << 3);
 	this->writeRegister(CTRL_REG, (RegisterVal));
 	
@@ -109,7 +108,17 @@ void i2c_device_ds3231::startSquareWave(SQR_WAVES wave){
 		break;
 		
 	}
+}
+
+void i2c_device_ds3231::stopSquareWave(){
 	
+	unsigned int RegisterVal = this->readRegister(CTRL_REG);
+	//reset the BBSQW bit
+	RegisterVal &= ~(1 << 6);
+	//set the INTCN bit
+	RegisterVal |= (1 << 2);
+	
+	this->writeRegister(CTRL_REG, (RegisterVal));
 }
 
  

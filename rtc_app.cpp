@@ -68,6 +68,8 @@ int main() {
    
    sleep(1);
    rtc.startSquareWave(i2c_device_ds3231::WAVE_1);
+   sleep(5);
+   rtc.stopSquareWave();
    
    
    return 0;
