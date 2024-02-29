@@ -286,7 +286,7 @@ void i2c_device_ds3231::setTimeAndDate(unsigned int hours, unsigned int minutes,
  
 unsigned int i2c_device_ds3231::getSeconds(){return bcdToDec(this->readRegister(SECONDS_REG));}
 
-unsigned int i2c_device_ds3231::setSeconds(unsigned int seconds, unsigned int reg);{
+unsigned int i2c_device_ds3231::setSeconds(unsigned int seconds, unsigned int reg){
 	
 	unsigned int targetRegister = SECONDS_REG;
 	switch (reg){
