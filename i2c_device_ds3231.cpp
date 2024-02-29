@@ -83,7 +83,7 @@ void i2c_device_ds3231::startSquareWave(SQR_WAVES wave){
 	RegisterVal &= ~(1 << 6);
 	//set RS1 and RS2 bits
 	cout << "wave input: " << wave << endl;
-	RegisterVal &= ~(wave << 2);
+	RegisterVal &= ~(wave << 3);
 	this->writeRegister(CTRL_REG, (RegisterVal));
 	
 	switch(wave){
