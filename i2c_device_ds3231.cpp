@@ -309,7 +309,7 @@ unsigned int i2c_device_ds3231::setSeconds(unsigned int seconds, unsigned int re
 			return 1;
 	}
 	if(seconds < 60){
-		this->writeRegister(targetRegister, decimalToBCD(seconds));
+		this->writeRegister(targetRegister, (decimalToBCD(seconds) & 0x7F));
 		//update the object 
 		this->seconds = getSeconds();
 		return 0;
@@ -343,7 +343,8 @@ unsigned int i2c_device_ds3231::setMinutes(unsigned int minutes, unsigned int re
 	}
 	if(minutes < 60){
 		cout << "MINUTES_REG is "  << MINUTES_REG <<endl;
-		this->writeRegister(targetRegister, decimalToBCD(minutes));
+		this->writeRegister(targetRegister, (decimalToBCD(minutes) & 0x7F));
+		this->minutes = getMinutes();
 		return 0;
 	}
 	else{
