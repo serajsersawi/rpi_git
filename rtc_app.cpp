@@ -62,7 +62,7 @@ int main() {
    sleep(1);
    rtc.displayTimeAndDate(); */
    
-   rtc.setTimeAndDate(9,35,55,30,4,2025);
+   rtc.setTimeAndDate(2,35,55,30,4,2025);
    sleep(1);
    rtc.displayTimeAndDate();
    rtc.dumpRegisters();
