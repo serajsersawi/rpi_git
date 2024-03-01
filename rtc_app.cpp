@@ -77,7 +77,6 @@ int main() {
    sleep(2);
  
    rtc.setAlarm1(i2c_device_ds3231::DAY_OF_MONTH, MS_MATCH, 1, 1, 15, 38, 0); 
-   cout << "alarm set" << endl;
    
    rtc.dumpRegisters();
    
