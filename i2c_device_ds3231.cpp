@@ -375,7 +375,8 @@ unsigned int i2c_device_ds3231::getHours(){
 //this function will accept hours 0 - 12 and not change anything 
 //if the hour is greater than 12 till 24 wil accept it and make sure system is 24
 unsigned int i2c_device_ds3231::setHours(unsigned int hours, unsigned int reg){
-
+	
+	this->changeHrMode(TWENTYFOUR);
 	unsigned int targetRegister = HOURS_REG;
 	switch (reg){
 		case RTC_REGS:
@@ -400,7 +401,7 @@ unsigned int i2c_device_ds3231::setHours(unsigned int hours, unsigned int reg){
 		//will write to the register and leave everything else unchanged
 		hourTens = hours / 10;
 		hourOnes = hours % 10;
-		this->writeRegister(targetRegister, ((oldRegisterVal & 0xE0) | (((hourTens << 4) | hourOnes) & 0x1F)));
+		this->writeRegister(targetRegister, ((oldRegisterVal & 0xE0) | (((hourTens << 4) | hourOnes) & 0x3F)));
 		this->hours   = getHours();
 		return 0;
 	} 
@@ -408,7 +409,6 @@ unsigned int i2c_device_ds3231::setHours(unsigned int hours, unsigned int reg){
 		
 		hourTens = hours / 10;
 		hourOnes = hours % 10;
-		this->changeHrMode(TWENTYFOUR);
 		this->writeRegister(targetRegister, ((oldRegisterVal & 0xC0) | (((hourTens << 4) | hourOnes) & 0x3F)));
 		this->hours   = getHours();
 		return 0;
@@ -591,8 +591,25 @@ int i2c_device_ds3231::setYear(int year){
 	}
 }
 
-void i2c_device_ds3231::changeHrMode(unsigned int mode){
-	unsigned int oldRegisterVal = this->readRegister(HOURS_REG);
+void i2c_device_ds3231::changeHrMode(unsigned int mode, unsigned int reg){
+	
+	unsigned int targetRegister = HOURS_REG;
+	switch (reg){
+		case RTC_REGS:
+			targetRegister = HOURS_REG;
+			break;
+		case ALARM1_REGS:
+			targetRegister = ALARM1_HR_REG;
+			break;
+		case ALARM2_REGS:
+			targetRegister = ALARM2_HR_REG;
+			break;	
+		default:
+			cerr << "Invalid register input!" << endl;
+			//targetRegister = DATE_REG;
+			return 1;
+	}
+	unsigned int oldRegisterVal = this->readRegister(targetRegister);
 	
 	switch(mode){
 		case i2c_device_ds3231::TWENTYFOUR:
