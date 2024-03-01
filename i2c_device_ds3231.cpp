@@ -218,14 +218,14 @@ void i2c_device_ds3231::setDate(unsigned int date, unsigned int month, int year)
 	unsigned int invalidData = 0;
 	invalidData = setYear(year)
 	+ setMonth(month)
-	+ setDate(date, DATE_REG);
+	+ setDate(date, RTC_REGS);
 	
 	if(invalidData){
 		//set date to default
 		cerr << "Setting date back to 01/01/2000" << endl;
 		setYear(2000);
 		setMonth(1);
-		setDate(1, DATE_REG);
+		setDate(1, RTC_REGS);
 	}
 }
 
@@ -233,31 +233,31 @@ void i2c_device_ds3231::setAlarm1DayDate(unsigned int A1_date, unsigned int A1_d
 	unsigned int invalidData = 0;
 	
 	if(A1_dom_dow)//day of week
-		invalidData = setDay(A1_day, ALARM1_DAY_DATE_REG);
+		invalidData = setDay(A1_day, ALARM1_REGS);
 	else
-		invalidData = setDate(A1_date, ALARM1_DAY_DATE_REG);
+		invalidData = setDate(A1_date, ALARM1_REGS);
 	
 	
 	if(invalidData){
 		//set date to default
 		cerr << "Setting date/day back to 1" << endl;
-		setDate(1, ALARM1_DAY_DATE_REG);
+		setDate(1, ALARM1_REGS);
 	}
 }
 
 void i2c_device_ds3231::setTime(unsigned int hours, unsigned int minutes, unsigned int seconds){
 	
 	unsigned int invalidData = 0;
-	invalidData = setSeconds(seconds, SECONDS_REG)
-	+ setMinutes(minutes, MINUTES_REG)
-	+ setHours(hours, HOURS_REG);
+	invalidData = setSeconds(seconds, RTC_REGS)
+	+ setMinutes(minutes, RTC_REGS)
+	+ setHours(hours, RTC_REGS);
 	
 	if(invalidData){
 		//set date to default
 		cerr << "Setting time back to 00:00:00" << endl;
-		setSeconds(0, SECONDS_REG);
-		setMinutes(0, MINUTES_REG);
-		setHours(0, HOURS_REG);
+		setSeconds(0, RTC_REGS);
+		setMinutes(0, RTC_REGS);
+		setHours(0, RTC_REGS);
 	}
 	
 }
@@ -265,16 +265,16 @@ void i2c_device_ds3231::setTime(unsigned int hours, unsigned int minutes, unsign
 void i2c_device_ds3231::setAlarm1Time(unsigned int A1_hours, unsigned int A1_minutes, unsigned int A1_seconds){
 	
 	unsigned int invalidData = 0;
-	invalidData = setSeconds(A1_seconds, ALARM1_SEC_REG)
-	+ setMinutes(A1_minutes, ALARM1_MIN_REG)
-	+ setHours(A1_hours, ALARM1_HR_REG);
+	invalidData = setSeconds(A1_seconds, ALARM1_REGS)
+	+ setMinutes(A1_minutes, ALARM1_REGS)
+	+ setHours(A1_hours, ALARM1_REGS);
 	
 	if(invalidData){
 		//set date to default
 		cerr << "Setting alarm1 back to 00:00:00" << endl;
-		setSeconds(0, ALARM1_SEC_REG);
-		setMinutes(0, ALARM1_MIN_REG);
-		setHours(0, ALARM1_HR_REG);
+		setSeconds(0, ALARM1_REGS);
+		setMinutes(0, ALARM1_REGS);
+		setHours(0, ALARM1_REGS);
 	}
 }
 
