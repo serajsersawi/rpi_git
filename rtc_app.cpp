@@ -65,6 +65,7 @@ int main() {
    rtc.setTimeAndDate(14,35,55,30,4,2025);
    sleep(1);
    rtc.displayTimeAndDate();
+   rtc.dumpRegisters();
    
    //Testing 1Hz frequency square wave on LED  for 5 seconds
    /* sleep(1);
