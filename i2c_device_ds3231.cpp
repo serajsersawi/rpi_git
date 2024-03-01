@@ -376,7 +376,7 @@ unsigned int i2c_device_ds3231::getHours(){
 //if the hour is greater than 12 till 24 wil accept it and make sure system is 24
 unsigned int i2c_device_ds3231::setHours(unsigned int hours, unsigned int reg){
 	
-	this->changeHrMode(TWENTYFOUR);
+	
 	unsigned int targetRegister = HOURS_REG;
 	switch (reg){
 		case RTC_REGS:
@@ -396,6 +396,7 @@ unsigned int i2c_device_ds3231::setHours(unsigned int hours, unsigned int reg){
 	unsigned int hourTens;
 	unsigned int hourOnes;
 	unsigned int oldRegisterVal = this->readRegister(targetRegister);
+	this->changeHrMode(TWENTYFOUR, targetRegister);
 	
 	if(hours > -1 && hours < 13){
 		//will write to the register and leave everything else unchanged
