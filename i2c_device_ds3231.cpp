@@ -328,7 +328,7 @@ unsigned int i2c_device_ds3231::setMinutes(unsigned int minutes, unsigned int re
 	switch (reg){
 		case RTC_REGS:
 			targetRegister = MINUTES_REG;
-			cout << " setting rtc minutes " <<endl;
+			cout << "setting rtc minutes and target is " << targetRegister <<endl;
 			break;
 		case ALARM1_REGS:
 			targetRegister = ALARM1_MIN_REG;
@@ -342,6 +342,7 @@ unsigned int i2c_device_ds3231::setMinutes(unsigned int minutes, unsigned int re
 			return 1;
 	}
 	if(minutes < 60){
+		cout << "MINUTES_REG is "  << MINUTES_REG <<endl;
 		this->writeRegister(MINUTES_REG, decimalToBCD(minutes));
 		return 0;
 	}
