@@ -83,7 +83,6 @@ int main() {
    
    rtc.displayTimeAndDate();
    
-   rtc.dumpRegisters();
    
    
    return 0;

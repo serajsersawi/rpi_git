@@ -271,6 +271,10 @@ void i2c_device_ds3231::setAlarm1Time(unsigned int A1_hours, unsigned int A1_min
 	+ setMinutes(A1_minutes, ALARM1_REGS)
 	+ setHours(A1_hours, ALARM1_REGS);
 	
+	cout << "Dump after alarm1 sets time"<< hours <<endl;
+    dumpRegisters();
+	
+	
 	if(invalidData){
 		//set date to default
 		cerr << "Setting alarm1 back to 00:00:00" << endl;
