@@ -608,7 +608,6 @@ void i2c_device_ds3231::changeHrMode(unsigned int mode, unsigned int reg){
 		default:
 			cerr << "Invalid register input!" << endl;
 			//targetRegister = DATE_REG;
-			return 1;
 	}
 	unsigned int oldRegisterVal = this->readRegister(targetRegister);
 	
