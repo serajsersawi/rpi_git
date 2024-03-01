@@ -299,12 +299,12 @@ unsigned int i2c_device_ds3231::setSeconds(unsigned int seconds, unsigned int re
 			targetRegister = ALARM1_SEC_REG;
 			break;
 		case ALARM2_REGS:
-			cerr << "Invalid register input!" << endl;
+			cerr << "Invalid register input for seconds!" << endl;
 			//targetRegister = SECONDS_REG;
 			return 1;
 			break;	
 		default:
-			cerr << "Invalid register input!" << endl;
+			cerr << "Invalid register input for seconds!" << endl;
 			//targetRegister = SECONDS_REG;
 			return 1;
 	}
@@ -335,7 +335,7 @@ unsigned int i2c_device_ds3231::setMinutes(unsigned int minutes, unsigned int re
 			targetRegister = ALARM2_MIN_REG;
 			break;	
 		default:
-			cerr << "Invalid register input!" << endl;
+			cerr << "Invalid register input for minutes!" << endl;
 			//targetRegister = MINUTES_REG;
 			return 1;
 	}
@@ -440,7 +440,7 @@ unsigned int i2c_device_ds3231::setDay(unsigned int day, unsigned int reg){
 			targetRegister = ALARM2_DAY_DATE_REG;
 			break;	
 		default:
-			cerr << "Invalid register input!" << endl;
+			cerr << "Invalid register input for day!" << endl;
 			//targetRegister = DATE_REG;
 			return 1;
 	}
@@ -482,7 +482,7 @@ unsigned int i2c_device_ds3231::setDate(unsigned int date, unsigned int reg){
 			targetRegister = ALARM2_DAY_DATE_REG;
 			break;	
 		default:
-			cerr << "Invalid register input!" << endl;
+			cerr << "Invalid register input for date!" << endl;
 			//targetRegister = DATE_REG;
 			return 1;
 	}
@@ -607,7 +607,7 @@ void i2c_device_ds3231::changeHrMode(unsigned int mode, unsigned int reg){
 			targetRegister = ALARM2_HR_REG;
 			break;	
 		default:
-			cerr << "Invalid register input!" << endl;
+			cerr << "Invalid register input for hr mode!" << endl;
 			//targetRegister = DATE_REG;
 	}
 	unsigned int oldRegisterVal = this->readRegister(targetRegister);
