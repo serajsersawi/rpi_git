@@ -389,7 +389,7 @@ unsigned int i2c_device_ds3231::getHours(){
 unsigned int i2c_device_ds3231::setHours(unsigned int hours, unsigned int reg){
 	
 	cout << "Hour passed by user " << hours << endl;
-	unsigned int targetRegister = HOURS_REG;
+	unsigned int targetRegister;
 	switch (reg){
 		case RTC_REGS:
 			targetRegister = HOURS_REG;
@@ -397,6 +397,7 @@ unsigned int i2c_device_ds3231::setHours(unsigned int hours, unsigned int reg){
 			break;
 		case ALARM1_REGS:
 			targetRegister = ALARM1_HR_REG;
+			cout << "Target is ALARM1 " << endl;
 			break;
 		case ALARM2_REGS:
 			targetRegister = ALARM2_HR_REG;
@@ -417,7 +418,7 @@ unsigned int i2c_device_ds3231::setHours(unsigned int hours, unsigned int reg){
 		hourTens = hours / 10;
 		hourOnes = hours % 10;
 		this->writeRegister(targetRegister, ((oldRegisterVal & 0xE0) | (((hourTens << 4) | hourOnes) & 0x3F)));
-		this->hours   = getHours();
+		//this->hours   = getHours();
 		return 0;
 	} 
 	else if(hours > 12 && hours < 24){
@@ -425,7 +426,7 @@ unsigned int i2c_device_ds3231::setHours(unsigned int hours, unsigned int reg){
 		hourTens = hours / 10;
 		hourOnes = hours % 10;
 		this->writeRegister(targetRegister, ((oldRegisterVal & 0xC0) | (((hourTens << 4) | hourOnes) & 0x3F)));
-		this->hours   = getHours();
+		//this->hours   = getHours();
 		return 0;
 	}
 	else{
