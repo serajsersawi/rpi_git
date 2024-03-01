@@ -67,12 +67,12 @@ int main() {
    rtc.displayTimeAndDate();
    
    //Testing 1Hz frequency square wave on LED  for 5 seconds
-   sleep(1);
+   /* sleep(1);
    rtc.startSquareWave(i2c_device_ds3231::WAVE_1);
    sleep(5);
    rtc.stopSquareWave();
-   
-   rtc.setAlarm1(i2c_device_ds3231::DAY_OF_MONTH, MS_MATCH, 1, 1, 21, 55, 0); 
+    */
+   //rtc.setAlarm1(i2c_device_ds3231::DAY_OF_MONTH, MS_MATCH, 1, 1, 21, 55, 0); 
    
    
    return 0;
