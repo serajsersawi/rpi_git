@@ -270,11 +270,16 @@ void i2c_device_ds3231::setAlarm1Time(unsigned int A1_hours, unsigned int A1_min
 	dumpRegisters();
 	
 	unsigned int invalidData = 0;
-	invalidData = setSeconds(A1_seconds, ALARM1_REGS)
-	+ setMinutes(A1_minutes, ALARM1_REGS)
-	+ setHours(A1_hours, ALARM1_REGS);
+	invalidData = setSeconds(A1_seconds, ALARM1_REGS);
+	cout << "Dump after alarm1 sets seconds"<<endl;
+	dumpRegisters();
 	
-	cout << "Dump after alarm1 sets time"<<endl;
+	invalidData += setMinutes(A1_minutes, ALARM1_REGS);
+	cout << "Dump after alarm1 sets minutes"<<endl;
+	dumpRegisters();
+	invalidData += setHours(A1_hours, ALARM1_REGS);
+	
+	cout << "Dump after alarm1 sets hours"<<endl;
     dumpRegisters();
 	
 	
