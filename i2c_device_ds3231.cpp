@@ -411,8 +411,12 @@ unsigned int i2c_device_ds3231::setHours(unsigned int hours, unsigned int reg){
 	unsigned int hourOnes;
 	unsigned int oldRegisterVal = this->readRegister(targetRegister);
 	cout << "Target is number is " << targetRegister <<  endl;
+	cout << "Dump before changing hours mode" <<  endl;
+	dumpRegisters();
 	this->changeHrMode(TWENTYFOUR, reg);
-	cout << "Hour passed by user " << hours << endl;
+	cout << "Hour passed by user " << hours << endl;		
+	cout << "Dump after changing hours mode" <<  endl;
+	dumpRegisters();
 	if(hours >= 0 && hours < 13){
 		//will write to the register and leave everything else unchanged
 		hourTens = hours / 10;
