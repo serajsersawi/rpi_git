@@ -419,7 +419,11 @@ unsigned int i2c_device_ds3231::setHours(unsigned int hours, unsigned int reg){
 		hourOnes = hours % 10;
 		cout << "Writing " << ((oldRegisterVal & 0xE0) | (((hourTens << 4) | hourOnes) & 0x3F)) <<  endl;
 		cout << "To register " << targetRegister <<  endl;
+		cout << "Dump before write command" <<  endl;
+		dumpRegisters();
 		this->writeRegister(targetRegister, ((oldRegisterVal & 0xE0) | (((hourTens << 4) | hourOnes) & 0x3F)));
+		cout << "Dump after write command" <<  endl;
+		dumpRegisters();
 		this->hours   = getHours();
 		return 0;
 	} 
@@ -429,7 +433,11 @@ unsigned int i2c_device_ds3231::setHours(unsigned int hours, unsigned int reg){
 		hourOnes = hours % 10;
 		cout << "Writing " << ((oldRegisterVal & 0xE0) | (((hourTens << 4) | hourOnes) & 0x3F)) <<  endl;
 		cout << "To register " << targetRegister <<  endl;
+		cout << "Dump before write command" <<  endl;
+		dumpRegisters();
 		this->writeRegister(targetRegister, ((oldRegisterVal & 0xC0) | (((hourTens << 4) | hourOnes) & 0x3F)));
+		cout << "Dump after write command" <<  endl;
+		dumpRegisters();
 		this->hours   = getHours();
 		return 0;
 	}
