@@ -397,6 +397,7 @@ unsigned int i2c_device_ds3231::setHours(unsigned int hours, unsigned int reg){
 	unsigned int hourTens;
 	unsigned int hourOnes;
 	unsigned int oldRegisterVal = this->readRegister(targetRegister);
+	cout << "Target is number is " << targetRegister <<  endl;
 	this->changeHrMode(TWENTYFOUR, targetRegister);
 	cout << "Hour passed by user " << hours << endl;
 	if(hours >= 0 && hours < 13){
@@ -595,7 +596,7 @@ int i2c_device_ds3231::setYear(int year){
 
 void i2c_device_ds3231::changeHrMode(unsigned int mode, unsigned int reg){
 	
-	unsigned int targetRegister = HOURS_REG;
+	unsigned int targetRegister;
 	switch (reg){
 		case RTC_REGS:
 			targetRegister = HOURS_REG;
