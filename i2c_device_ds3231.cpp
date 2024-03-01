@@ -390,7 +390,7 @@ unsigned int i2c_device_ds3231::setHours(unsigned int hours, unsigned int reg){
 			targetRegister = ALARM2_HR_REG;
 			break;	
 		default:
-			cerr << "Invalid register input!" << endl;
+			cerr << "Invalid register input for hours!" << endl;
 			//targetRegister = HOURS_REG;
 			return 1;
 	}
