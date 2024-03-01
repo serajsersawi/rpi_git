@@ -214,7 +214,7 @@ int i2c_device_ds3231::displayTemperature(){
 }
 
 void i2c_device_ds3231::setDate(unsigned int date, unsigned int month, int year){
-	
+	cout << "Setting date " << endl;
 	unsigned int invalidData = 0;
 	invalidData = setYear(year)
 	+ setMonth(month)
@@ -466,7 +466,7 @@ unsigned int i2c_device_ds3231::getDate(){
 }
 
 unsigned int i2c_device_ds3231::setDate(unsigned int date, unsigned int reg){
-	
+	cout << "setDate with input reg " << reg << endl;
 	//according to which register is being manipulated 
 	unsigned int targetRegister = DATE_REG;
 	switch (reg){
