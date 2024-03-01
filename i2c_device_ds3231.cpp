@@ -77,6 +77,34 @@ void i2c_device_ds3231::setAlarm1(ALARM_TYPE A1_dom_dow, unsigned int A1_match_m
 	
 	//unsigned int RegisterVal = this->readRegister();
 	//setting mask bits
+	cout << "Setting Alarm1..  " << endl;
+	switch (A1_match_mode){
+		
+		case ONCE_PER_SECOND:
+			cout << "Once per second " << endl;
+			break;
+		case S_MATCH:
+			cout << "Seconds match " << endl;
+			break;
+
+		case MS_MATCH:
+			cout << "Minutes and seconds match " << endl;
+			break;
+		case HMS_MATCH:
+			cout << "Hour, minutes and seconds match " << endl;
+			break;
+		case DHMS_MATCH:
+			if(A1_dom_dow)
+				cout << "Day, hour, minutes and seconds match  Day:  " << A1_day << endl;
+			else
+				cout << "Date, hour, minutes and seconds match  Date " << A1_date << endl;
+			break;
+		
+	}
+	
+	cout << "Hours: " << A1_hours <<  "  Minutes: " << A1_minutes <<  "  Seconds: " << A1_seconds << endl;
+
+	
 	this->writeRegister(ALARM1_DAY_DATE_REG, ((A1_match_mode >> 3) & 0x01) << 7 ); //A1M4
 
 	this->writeRegister(ALARM1_HR_REG	   , ((A1_match_mode >> 2) & 0x01) << 7 ); //A1M3
@@ -90,6 +118,8 @@ void i2c_device_ds3231::setAlarm1(ALARM_TYPE A1_dom_dow, unsigned int A1_match_m
 	setAlarm1DayDate(A1_date, A1_day, A1_dom_dow);
 	
 	enableAlarm1();
+	
+	cout << "Alarm1 is set and enabled!  " << endl;
 	
 	
 }
@@ -388,16 +418,14 @@ unsigned int i2c_device_ds3231::getHours(){
 //if the hour is greater than 12 till 24 wil accept it and make sure system is 24
 unsigned int i2c_device_ds3231::setHours(unsigned int hours, unsigned int reg){
 	
-	cout << "Hour passed by user " << hours << endl;
+
 	unsigned int targetRegister;
 	switch (reg){
 		case RTC_REGS:
 			targetRegister = HOURS_REG;
-			cout << "Target is RTC " << endl;
 			break;
 		case ALARM1_REGS:
 			targetRegister = ALARM1_HR_REG;
-			cout << "Target is ALARM1 " << endl;
 			break;
 		case ALARM2_REGS:
 			targetRegister = ALARM2_HR_REG;
@@ -410,24 +438,21 @@ unsigned int i2c_device_ds3231::setHours(unsigned int hours, unsigned int reg){
 	unsigned int hourTens;
 	unsigned int hourOnes;
 	unsigned int oldRegisterVal = this->readRegister(targetRegister);
-	cout << "Target is number is " << targetRegister <<  endl;
-	cout << "Dump before changing hours mode" <<  endl;
 	dumpRegisters();
 	this->changeHrMode(TWENTYFOUR, reg);
-	cout << "Hour passed by user " << hours << endl;		
-	cout << "Dump after changing hours mode" <<  endl;
+
 	dumpRegisters();
 	if(hours >= 0 && hours < 13){
 		//will write to the register and leave everything else unchanged
 		hourTens = hours / 10;
 		hourOnes = hours % 10;
-		cout << "Writing " << ((oldRegisterVal & 0xE0) | (((hourTens << 4) | hourOnes) & 0x3F)) <<  endl;
-		cout << "To register " << targetRegister <<  endl;
-		cout << "Dump before write command" <<  endl;
-		dumpRegisters();
+		//cout << "Writing " << ((oldRegisterVal & 0xE0) | (((hourTens << 4) | hourOnes) & 0x3F)) <<  endl;
+		//cout << "To register " << targetRegister <<  endl;
+		//cout << "Dump before write command" <<  endl;
+		//dumpRegisters();
 		this->writeRegister(targetRegister, ((oldRegisterVal & 0xE0) | (((hourTens << 4) | hourOnes) & 0x3F)));
-		cout << "Dump after write command" <<  endl;
-		dumpRegisters();
+		//cout << "Dump after write command" <<  endl;
+		//dumpRegisters();
 		this->hours   = getHours();
 		return 0;
 	} 
@@ -435,13 +460,7 @@ unsigned int i2c_device_ds3231::setHours(unsigned int hours, unsigned int reg){
 		
 		hourTens = hours / 10;
 		hourOnes = hours % 10;
-		cout << "Writing " << ((oldRegisterVal & 0xE0) | (((hourTens << 4) | hourOnes) & 0x3F)) <<  endl;
-		cout << "To register " << targetRegister <<  endl;
-		cout << "Dump before write command" <<  endl;
-		dumpRegisters();
 		this->writeRegister(targetRegister, ((oldRegisterVal & 0xC0) | (((hourTens << 4) | hourOnes) & 0x3F)));
-		cout << "Dump after write command" <<  endl;
-		dumpRegisters();
 		this->hours   = getHours();
 		return 0;
 	}
