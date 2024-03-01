@@ -74,7 +74,7 @@ int main() {
     */
 	
    sleep(2);
-   rtc.setAlarm1(i2c_device_ds3231::DAY_OF_MONTH, MS_MATCH, 1, 1, 2, 03, 0); 
+   rtc.setAlarm1(i2c_device_ds3231::DAY_OF_MONTH, MS_MATCH, 1, 1, 2, 4, 0); 
    
    
    return 0;
