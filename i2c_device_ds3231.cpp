@@ -417,8 +417,10 @@ unsigned int i2c_device_ds3231::setHours(unsigned int hours, unsigned int reg){
 		//will write to the register and leave everything else unchanged
 		hourTens = hours / 10;
 		hourOnes = hours % 10;
+		cout << "Writing " << ((oldRegisterVal & 0xE0) | (((hourTens << 4) | hourOnes) & 0x3F)) <<  endl;
+		cout << "To register " << targetRegister <<  endl;
 		this->writeRegister(targetRegister, ((oldRegisterVal & 0xE0) | (((hourTens << 4) | hourOnes) & 0x3F)));
-		//this->hours   = getHours();
+		this->hours   = getHours();
 		return 0;
 	} 
 	else if(hours > 12 && hours < 24){
@@ -426,7 +428,7 @@ unsigned int i2c_device_ds3231::setHours(unsigned int hours, unsigned int reg){
 		hourTens = hours / 10;
 		hourOnes = hours % 10;
 		this->writeRegister(targetRegister, ((oldRegisterVal & 0xC0) | (((hourTens << 4) | hourOnes) & 0x3F)));
-		//this->hours   = getHours();
+		this->hours   = getHours();
 		return 0;
 	}
 	else{
