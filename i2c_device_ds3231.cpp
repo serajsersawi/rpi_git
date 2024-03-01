@@ -323,12 +323,10 @@ unsigned int i2c_device_ds3231::setSeconds(unsigned int seconds, unsigned int re
 unsigned int i2c_device_ds3231::getMinutes(){return bcdToDec(this->readRegister(MINUTES_REG));}
 
 unsigned int i2c_device_ds3231::setMinutes(unsigned int minutes, unsigned int reg){
-	cout << "inside setTime function user input minutes "<< minutes <<endl;
 	unsigned int targetRegister = MINUTES_REG;
 	switch (reg){
 		case RTC_REGS:
 			targetRegister = MINUTES_REG;
-			cout << "setting rtc minutes and target is " << targetRegister <<endl;
 			break;
 		case ALARM1_REGS:
 			targetRegister = ALARM1_MIN_REG;
@@ -342,7 +340,6 @@ unsigned int i2c_device_ds3231::setMinutes(unsigned int minutes, unsigned int re
 			return 1;
 	}
 	if(minutes < 60){
-		cout << "MINUTES_REG is "  << MINUTES_REG <<endl;
 		this->writeRegister(targetRegister, (decimalToBCD(minutes) & 0x7F));
 		this->minutes = getMinutes();
 		return 0;
@@ -378,11 +375,11 @@ unsigned int i2c_device_ds3231::getHours(){
 //this function will accept hours 0 - 12 and not change anything 
 //if the hour is greater than 12 till 24 wil accept it and make sure system is 24
 unsigned int i2c_device_ds3231::setHours(unsigned int hours, unsigned int reg){
-	
+
 	unsigned int targetRegister = HOURS_REG;
 	switch (reg){
 		case RTC_REGS:
-			targetRegister = DAY_REG;
+			targetRegister = HOURS_REG;
 			break;
 		case ALARM1_REGS:
 			targetRegister = ALARM1_HR_REG;
