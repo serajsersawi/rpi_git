@@ -151,7 +151,7 @@ private:
 	virtual void setAlarm1Time(unsigned int A1_hours, unsigned int A1_minutes, unsigned int A1_seconds);
 	virtual void setAlarm1DayDate(unsigned int A1_date, unsigned int A1_day, ALARM_TYPE A1_dom_dow);
 	virtual void setAlarmTime(ALARM_NO setAlarmNo, unsigned int setAlarmHours, unsigned int setAlarmMinutes, unsigned int setAlarmSeconds);
-	virtual void setAlarmDayDate(ALARM_NO setAlarmNo, unsigned int setDate, unsigned int setDay, ALARM_TYPE setDayOrDate);
+	virtual void setAlarmDayDate(ALARM_NO setAlarmNo, unsigned int setAlarmDate, unsigned int setAlarmDay, ALARM_TYPE setAlarmDayOrDate);
 	virtual void setAlarmMaskBits(ALARM_NO maskAlarmNo, ALARM_TYPE maskDayOrDate, unsigned int maskAlarmMatchMode);
 public:
 	/*public functions APIs*/

@@ -227,16 +227,16 @@ void i2c_device_ds3231::setAlarmTime(ALARM_NO setAlarmNo, unsigned int setAlarmH
 
 }
 
-void i2c_device_ds3231::setAlarmDayDate(ALARM_NO setAlarmNo, unsigned int setDate, unsigned int setDay, ALARM_TYPE setDayOrDate){
+void i2c_device_ds3231::setAlarmDayDate(ALARM_NO setAlarmNo, unsigned int setAlarmDate, unsigned int setAlarmDay, ALARM_TYPE setAlarmDayOrDate){
 	unsigned int invalidData = 0;
 	
 		switch(setAlarmNo){	
 		case ALARM1:
 		
-			if(setDayOrDate)//day of week
-				invalidData = setDay(setDay, ALARM1_REGS);
+			if(setAlarmDayOrDate)//day of week
+				invalidData = setDay(setAlarmDay, ALARM1_REGS);
 			else
-				invalidData = setDate(setDate, ALARM1_REGS);
+				invalidData = setDate(setAlarmDate, ALARM1_REGS);
 
 			if(invalidData){
 				//set date to default
@@ -247,10 +247,10 @@ void i2c_device_ds3231::setAlarmDayDate(ALARM_NO setAlarmNo, unsigned int setDat
 		break;
 		case ALARM2:
 
-			if(setDayOrDate)//day of week
-				invalidData = setDay(setDay, ALARM2_REGS);
+			if(setAlarmDayOrDate)//day of week
+				invalidData = setDay(setAlarmDay, ALARM2_REGS);
 			else
-				invalidData = setDate(setDate, ALARM2_REGS);
+				invalidData = setDate(setAlarmDate, ALARM2_REGS);
 
 			if(invalidData){
 				//set date to default
