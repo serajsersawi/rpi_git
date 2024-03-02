@@ -285,12 +285,12 @@ void i2c_device_ds3231::enableAlarm(ALARM_NO enableAlarmNo){
 
 void i2c_device_ds3231::disableAlarm(ALARM_NO disableAlarmNo){
 	
-	clearAlarmFlag(enableAlarmNo);
+	clearAlarmFlag(disableAlarmNo);
 	unsigned int RegisterVal = this->readRegister(CTRL_REG);
 	//enable interrupt
 	RegisterVal &= ~(1 << 2);
 	//enable alarm interrupt 
-	switch (enableAlarmNo){
+	switch (disableAlarmNo){
 		
 		case ALARM1: RegisterVal &= ~(1 << 0); break;
 		case ALARM2: RegisterVal &= ~(1 << 1); break;
