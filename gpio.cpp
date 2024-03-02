@@ -34,7 +34,7 @@ void LED::turnLEDOff(){
 
 void LED::toggleLED(){
 		cout << "The current LED state is " << to_string(getState()) << endl; ;
-		writeSysfs(gpioPath, "value", to_string((getState() ^ 1 ) + 48));
+		writeSysfs(gpioPath, "value", to_string((!getState()) + 48));
 }
 
 
