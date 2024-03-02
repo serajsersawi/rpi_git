@@ -26,6 +26,8 @@
 #include <unistd.h>
 #include <pthread.h>
 #include "i2c_device_ds3231.h"
+#include "gpio.h"
+
 
 using namespace std;
 using namespace i2c;

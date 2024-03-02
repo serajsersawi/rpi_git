@@ -2,6 +2,7 @@
 #include<fstream>
 #include<string>
 #include<unistd.h>         // for the microsecond sleep function
+#include"gpio.h"
 using namespace std;
 
 
