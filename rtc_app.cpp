@@ -32,6 +32,7 @@ using namespace i2c;
 
 int main() {
    i2c_device_ds3231 rtc(1,0x68);
+   LED alarmLED(23);
    
 /*    rtc.displayTimeAndDate();
    sleep(1);
@@ -100,6 +101,7 @@ int main() {
 		   
 		   cout << "Interrupt" <<  endl;
 		   // rtc.dumpRegisters();
+		   alarmLED.toggleLED();
 		   rtc.clearAlarmFlag(i2c_device_ds3231::ALARM1);
 		   // rtc.dumpRegisters();
 		   //break;
