@@ -3,6 +3,7 @@
 #ifndef GPIO_H_
 #define GPIO_H_
 
+#include<string>
 
 class LED{
    private:                // the following is part of the implementation
