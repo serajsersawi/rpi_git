@@ -173,7 +173,7 @@ public:
 	virtual void setAlarm(ALARM_NO alarmNo, ALARM_TYPE dayOrDate, unsigned int alarmMatchMode, unsigned int alarmDate, unsigned int alarmDay, unsigned int alarmHours, unsigned int alarmMinutes, unsigned int alarmSeconds);
 	//FUTURE WORK: setAlarmInterruptGPIOPin
 	
-	virtual unsigned int void readAlarm(ALARM_NO readAlarmNo);
+	virtual unsigned int readAlarm(ALARM_NO readAlarmNo);
 	virtual void clearAlarmFlag(ALARM_NO clearFlagAlarmNo);
 	static unsigned int bcdToDec(unsigned char bcdValue) {
     unsigned int tens = (bcdValue >> 4) * 10;

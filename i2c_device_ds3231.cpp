@@ -310,7 +310,7 @@ void i2c_device_ds3231::clearAlarmFlag(ALARM_NO clearFlagAlarmNo){
 	}
 }
 
-unsigned int void i2c_device_ds3231::readAlarm(ALARM_NO readAlarmNo){
+unsigned int i2c_device_ds3231::readAlarm(ALARM_NO readAlarmNo){
 	
 	
 	switch(readAlarmNo){
