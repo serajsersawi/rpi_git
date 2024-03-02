@@ -33,10 +33,16 @@ void LED::turnLEDOff(){
 }
 
 void LED::toggleLED(){
-		cout << "The current LED state is " << to_string(getState()) << endl;
-		cout << "Changing LED state to " << to_string(!getState()) << endl;
-		cout << "String LED state to " << to_string((!getState()) + 48) << endl;
-		writeSysfs(gpioPath, "value", to_string((!getState()) + 48));
+
+	//writeSysfs(gpioPath, "value", to_string((!getState()) + 48));
+	
+	switch(getState(){
+		
+		case 1: turnLEDOff(); break;
+		case 0: turnLEDOn(); break;
+		default; break;
+		
+	}
 }
 
 
