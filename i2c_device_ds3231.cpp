@@ -519,7 +519,7 @@ unsigned int i2c_device_ds3231::setSeconds(unsigned int seconds, unsigned int re
 			break;
 		case ALARM2_REGS:
 			//cerr << "Invalid register input for seconds!" << endl;
-			targetRegister = NULL;
+			targetRegister = 13;
 			//return 1;
 			break;	
 		default:
@@ -527,7 +527,7 @@ unsigned int i2c_device_ds3231::setSeconds(unsigned int seconds, unsigned int re
 			//targetRegister = SECONDS_REG;
 			return 1;
 	}
-	if(targetRegister != NULL){
+	if(targetRegister != 13){
 		if(seconds < 60){
 			this->writeRegister(targetRegister, (decimalToBCD(seconds) & 0x7F));
 			//update the object 
@@ -539,6 +539,8 @@ unsigned int i2c_device_ds3231::setSeconds(unsigned int seconds, unsigned int re
 			return 1;
 		}
 	}
+	
+	return 0;
 }
 
 unsigned int i2c_device_ds3231::getMinutes(){return bcdToDec(this->readRegister(MINUTES_REG));}
