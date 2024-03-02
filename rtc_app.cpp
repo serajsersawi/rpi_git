@@ -105,6 +105,7 @@ int main() {
 		   cout << "Interrupt" <<  endl;
 		   // rtc.dumpRegisters();
 		   alarmLED.toggleLED();
+		   
 		   rtc.clearAlarmFlag(i2c_device_ds3231::ALARM1);
 		   // rtc.dumpRegisters();
 		   //use CTRL + C to break out of the loop

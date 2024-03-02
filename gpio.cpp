@@ -38,8 +38,8 @@ void LED::toggleLED(){
 	
 	switch(getState()){
 		
-		case 1: turnLEDOff(); break;
-		case 0: turnLEDOn(); break;
+		case 1: turnLEDOff(); cout << "LED OFF" <<  endl; break;
+		case 0: turnLEDOn(); cout << "LED ON" <<  endl; break;
 		default: break;
 		
 	}
