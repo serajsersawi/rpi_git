@@ -92,6 +92,7 @@ int main() {
    
    rtc.dumpRegisters();
    
+   rtc.start32kHz();
    while(1){
 	   
 	

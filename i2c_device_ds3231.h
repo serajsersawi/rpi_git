@@ -169,6 +169,9 @@ public:
 	virtual void startSquareWave(SQR_WAVES wave);
  	virtual void stopSquareWave(); 
 	
+	virtual void start32kHz();
+	virtual void stop32kHz(); 
+	
 	virtual void setAlarm1(ALARM_TYPE A1_dom_dow, unsigned int A1_match_mode, unsigned int A1_date, unsigned int A1_day, unsigned int A1_hours, unsigned int A1_minutes, unsigned int A1_seconds);
 	virtual void setAlarm(ALARM_NO alarmNo, ALARM_TYPE dayOrDate, unsigned int alarmMatchMode, unsigned int alarmDate, unsigned int alarmDay, unsigned int alarmHours, unsigned int alarmMinutes, unsigned int alarmSeconds);
 	//FUTURE WORK: setAlarmInterruptGPIOPin
