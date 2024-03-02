@@ -38,8 +38,8 @@ void LED::toggleLED(){
 	
 	switch(getState()){
 		
-		case 1: turnLEDOff(); cout << "LED OFF" <<  endl; break;
-		case 0: turnLEDOn(); cout << "LED ON" <<  endl; break;
+		case 1: turnLEDOff(); cout << "LED OFF on GPIO " << this->gpioNumber << endl; break;
+		case 0: turnLEDOn(); cout << "LED ON on GPIO " << this->gpioNumber << endl; break;
 		default: break;
 		
 	}
