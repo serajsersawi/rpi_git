@@ -40,7 +40,7 @@ void LED::toggleLED(){
 		
 		case 1: turnLEDOff(); break;
 		case 0: turnLEDOn(); break;
-		default; break;
+		default: break;
 		
 	}
 }
