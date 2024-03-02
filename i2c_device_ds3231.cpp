@@ -371,6 +371,7 @@ void i2c_device_ds3231::enableAlarm1(){
  
 void i2c_device_ds3231::displayTimeAndDate(){
 
+	cout << "Current time and date is: " << endl;
 	//reading is done first (reading the register data into the class parameters)
 	//reading the values that do not change quickly first
 	this->year = 	getYear();
