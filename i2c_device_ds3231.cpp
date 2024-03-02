@@ -275,7 +275,7 @@ void i2c_device_ds3231::enableAlarm(ALARM_NO enableAlarmNo){
 		
 		case ALARM1: RegisterVal |= (1 << 0); break;
 		case ALARM2: RegisterVal |= (1 << 1); break;
-		default: break;
+		default: cerr << "Invalid alarm number!" << endl;  break;
 		
 	}
 	
@@ -294,7 +294,7 @@ void i2c_device_ds3231::disableAlarm(ALARM_NO disableAlarmNo){
 		
 		case ALARM1: RegisterVal &= ~(1 << 0); break;
 		case ALARM2: RegisterVal &= ~(1 << 1); break;
-		default: break;
+		default: cerr << "Invalid alarm number!" << endl; break;
 		
 	}
 	this->writeRegister(CTRL_REG, (RegisterVal));
@@ -306,7 +306,7 @@ void i2c_device_ds3231::clearAlarmFlag(ALARM_NO clearFlagAlarmNo){
 	switch(clearFlagAlarmNo){
 		case ALARM1: this->writeRegister(CTRL_STAT_REG, (RegisterVal & 0xFE)); break;
 		case ALARM2: this->writeRegister(CTRL_STAT_REG, (RegisterVal & 0xFD)); break;
-		default: break;
+		default: cerr << "Invalid alarm number!" << endl; break;
 	}
 }
 
@@ -316,8 +316,10 @@ unsigned int i2c_device_ds3231::readAlarm(ALARM_NO readAlarmNo){
 	switch(readAlarmNo){
 		case ALARM1: return (this->readRegister(CTRL_STAT_REG) & ~(0x01)); break;
 		case ALARM2: return (this->readRegister(CTRL_STAT_REG) & ~(0x02)); break;
-		default: break;
+		default: cerr << "Invalid alarm number!" << endl; return 0; break;
 	}
+	
+	
 }
 ///////////////////////////////////////////////////////////////////////////
 
