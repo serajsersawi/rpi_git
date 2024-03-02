@@ -124,9 +124,9 @@ void i2c_device_ds3231::setAlarm1(ALARM_TYPE A1_dom_dow, unsigned int A1_match_m
 	
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void i2c_device_ds3231::setAlarm(ALARM_NO alarmNo, ALARM_TYPE dayOrDate, unsigned int alarmMatchMode, unsigned int alarmDate, unsigned int alarmDay, unsigned int alarmHours, unsigned int AlarmMinutes, unsigned int alarmSeconds){
+void i2c_device_ds3231::setAlarm(ALARM_NO alarmNo, ALARM_TYPE dayOrDate, unsigned int alarmMatchMode, unsigned int alarmDate, unsigned int alarmDay, unsigned int alarmHours, unsigned int alarmMinutes, unsigned int alarmSeconds){
 	
-	cout << "Setting Alarm  (" << alarmNo << ") ..." endl;
+	cout << "Setting Alarm  (" << alarmNo << ") ..." << endl;
 	switch (alarmMatchMode){
 		
 		case ONCE_PER_SECOND:
@@ -147,7 +147,7 @@ void i2c_device_ds3231::setAlarm(ALARM_NO alarmNo, ALARM_TYPE dayOrDate, unsigne
 			cout << "Hour, minutes and seconds match " << endl;
 			break;
 		case DHMS_MATCH:
-			if(A1_dom_dow)
+			if(dayOrDate)
 				cout << "Day, hour, minutes and seconds match  Day:  " << alarmDay << endl;
 			else
 				cout << "Date, hour, minutes and seconds match  Date " << alarmDate<< endl;
