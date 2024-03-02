@@ -51,9 +51,9 @@ int main() {
 	rtc.displayTimeAndDate();
 	sleep(1);
 	
-	rtc.changeHrMode(i2c_device_ds3231::TWELVE, RTC_REGS);
+/* 	rtc.changeHrMode(i2c_device_ds3231::TWELVE, RTC_REGS);
 	rtc.displayTimeAndDate();
-	sleep(1);
+	sleep(1); */
 	
 	
 	rtc.displayTemperature();
