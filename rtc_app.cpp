@@ -90,9 +90,9 @@ int main() {
    //polling test
    rtc.setAlarm(i2c_device_ds3231::ALARM1 ,i2c_device_ds3231::DAY_OF_MONTH, ONCE_PER_SECOND, 1, 1, 15, 38, 0); 
    
-   rtc.dumpRegisters();
-   
    rtc.start32kHz();
+   
+   rtc.dumpRegisters();
    while(1){
 	   
 	
