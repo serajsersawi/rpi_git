@@ -332,7 +332,7 @@ unsigned int i2c_device_ds3231::readAlarm(ALARM_NO readAlarmNo){
 	
 }
 
-void i2c_device_ds3231::void start32kHz(){
+void i2c_device_ds3231::start32kHz(){
 	
 	unsigned int RegisterVal = this->readRegister(CTRL_STAT_REG);
 	this->writeRegister(CTRL_STAT_REG, (RegisterVal | (1 << 3))); break;
@@ -340,7 +340,7 @@ void i2c_device_ds3231::void start32kHz(){
 	
 }
 
-void i2c_device_ds3231::void stop32kHz(){
+void i2c_device_ds3231::stop32kHz(){
 	
 	unsigned int RegisterVal = this->readRegister(CTRL_STAT_REG);
 	this->writeRegister(CTRL_STAT_REG, (RegisterVal & ~(1 << 3))); break;
