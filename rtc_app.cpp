@@ -92,7 +92,7 @@ int main() {
    
    rtc.dumpRegisters();
    
-   while(1){
+/*    while(1){
 	   
 	
 	   if(rtc.readAlarm(i2c_device_ds3231::ALARM1)){
@@ -103,7 +103,7 @@ int main() {
 	   }
 		 
 
-   }
+   } */
    
    
    
