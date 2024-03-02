@@ -1,27 +1,35 @@
-/*
- * application.cpp  Created on: 29 Apr 2014
- * Copyright (c) 2014 Derek Molloy (www.derekmolloy.ie)
- * Made available for the book "Exploring Raspberry Pi"
- * See: www.exploringrpi.com
- * Licensed under the EUPL V.1.1
+/**
+ * @file rtc_app.cpp
+ * @brief Application Demonstrating Usage of the DS3231 RTC and GPIO for Alarms
  *
- * This Software is provided to You under the terms of the European
- * Union Public License (the "EUPL") version 1.1 as published by the
- * European Union. Any use of this Software, other than as authorized
- * under this License is strictly prohibited (to the extent such use
- * is covered by a right of the copyright holder of this Software).
+ * This application demonstrates the use of the DS3231 Real Time Clock (RTC) module
+ * with a Raspberry Pi through I2C interface. It showcases setting the time, date, adjusting
+ * for leap years, setting alarms, and using a GPIO pin to indicate alarm triggers. The app
+ * employs both the i2c_device_ds3231 class for managing the RTC and the LED class for
+ * controlling an LED via GPIO as a visual indicator for alarms.
  *
- * This Software is provided under the License on an "AS IS" basis and
- * without warranties of any kind concerning the Software, including
- * without limitation merchantability, fitness for a particular purpose,
- * absence of defects or errors, accuracy, and non-infringement of
- * intellectual property rights other than copyright. This disclaimer
- * of warranty is an essential part of the License and a condition for
- * the grant of any rights to this Software.
+ * @author Sarraj Alsersawi
+ * @see https://github.com/serajsersawi/rpi_git.git
+ * Inspired by Derek Molloy's Exploring Raspberry Pi
+ * @see https://github.com/derekmolloy/exploringrpi.git
  *
- * For more details, see http://www.derekmolloy.ie/
+ * The application performs the following operations:
+ * - Displays the current time and date
+ * - Sets a specific time and date and then displays the update
+ * - Changes the hour mode between 24-hour and 12-hour formats
+ * - Displays the current temperature as read from the DS3231
+ * - Performs a register dump to check the correctness of the operations above
+ * - Conducts a leap year test by setting dates for leap and non-leap years
+ * - Validates date handling by setting valid and invalid dates
+ * - Tests the square wave output functionality by toggling an LED connected to the SQW pin
+ * - Sets alarms and demonstrates the alarm snooze functionality
+ * - Tests the 32kHz output functionality
+ * - Implements a polling mechanism for alarm flags to trigger a GPIO pin change
+ *
+ * Note: This app is designed for demonstration purposes and showcases basic interactions
+ * with the DS3231 RTC module and general GPIO usage on a Raspberry Pi.
  */
-
+ 
 #include <iostream>
 #include <unistd.h>
 #include <pthread.h>
@@ -125,6 +133,5 @@ int main() {
 	     }
     }
     
-
    return 0;
 }

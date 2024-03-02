@@ -22,10 +22,12 @@
  * For more details, see http://www.derekmolloy.ie/
  */
  
- /*
+/*
 	this code been slightly modifified as part of assignment 1 work
 	by Sarraj Alsersawi: serajsersawi98@gmail.com
 	25/02/2024
+	Created by Derek Molloy's Exploring Raspberry Pi
+	@see https://github.com/derekmolloy/exploringrpi.git
  
  */
 

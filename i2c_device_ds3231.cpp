@@ -1,5 +1,13 @@
-
-
+/**
+ * @file i2c_device_ds3231.cpp
+ * This file is part of a library developed for interfacing with the DS3231 real-time clock on a Raspberry Pi.
+ * The library provides functionalities to manage date, time, alarms, and other features of the DS3231 module.
+ *
+ * Author: Sarraj Alsersawi
+ * Repository: https://github.com/serajsersawi/rpi_git.git
+ * 
+ */
+ 
 #include "i2c_device_ds3231.h"
 #include <iostream>
 #include <unistd.h>
@@ -11,14 +19,6 @@ using namespace std;
 
 namespace i2c {
  
-
-/**
- * The constructor for the ADXL345 accelerometer object. It passes the bus number and the
- * device address (with is 0x53 by default) to the constructor of I2CDevice. All of the states
- * are initialized and the registers are updated.
- * @param I2CBus The bus number that the ADXL345 device is on - typically 0 or 1
- * @param I2CAddress The address of the ADLX345 device (default 0x53, but can be altered)
- */
  
 /*Constructor to initialize the rtc module given the i2c bus and the address*/
 /*Initialize the module to the default values
@@ -73,7 +73,6 @@ int i2c_device_ds3231::initUpdateAllRegisters(){
 }
 
 
-
 /*********************************************************************************************/
 void i2c_device_ds3231::setAlarm1(ALARM_TYPE A1_dom_dow, unsigned int A1_match_mode, unsigned int A1_date, unsigned int A1_day, unsigned int A1_hours, unsigned int A1_minutes, unsigned int A1_seconds){
 	
@@ -125,6 +124,7 @@ void i2c_device_ds3231::setAlarm1(ALARM_TYPE A1_dom_dow, unsigned int A1_match_m
 	
 	
 }
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void i2c_device_ds3231::setAlarm(ALARM_NO alarmNo, ALARM_TYPE dayOrDate, unsigned int alarmMatchMode, unsigned int alarmDate, unsigned int alarmDay, unsigned int alarmHours, unsigned int alarmMinutes, unsigned int alarmSeconds){
 	
@@ -235,7 +235,7 @@ void i2c_device_ds3231::setAlarmDayDate(ALARM_NO setAlarmNo, unsigned int setAla
 		switch(setAlarmNo){	
 		case ALARM1:
 		
-			if(setAlarmDayOrDate)//day of week
+			if(setAlarmDayOrDate) //day of week
 				invalidData = setDay(setAlarmDay, ALARM1_REGS);
 			else
 				invalidData = setDate(setAlarmDate, ALARM1_REGS);
@@ -349,7 +349,6 @@ void i2c_device_ds3231::stop32kHz(){
 
 void i2c_device_ds3231::alarmSnooze(ALARM_NO snoozeAlarmNo){
 	
-	
 	clearAlarmFlag(snoozeAlarmNo);
 	unsigned int minutesTargetReg;
 	unsigned int hoursTargetReg;
@@ -379,7 +378,6 @@ void i2c_device_ds3231::alarmSnooze(ALARM_NO snoozeAlarmNo){
 	
 	else{
 		//increment the hours and add the minutes difference
-		
 		this->writeRegister(minutesTargetReg, (oldMinutesTargetReg | (decimalToBCD(regMinutes + (60 - regMinutes)) & 0x7F)));
 	
 		oldHoursTargetReg = this->readRegister(hoursTargetReg);
@@ -953,4 +951,4 @@ void i2c_device_ds3231::changeHrMode(unsigned int mode, unsigned int reg){
 
 i2c_device_ds3231::~i2c_device_ds3231() {}
 
-} /* namespace exploringRPi */
+} /* namespace i2c */

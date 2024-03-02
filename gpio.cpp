@@ -1,3 +1,20 @@
+/** Simple Sysfs LED control program - written by Derek Molloy
+*    simple OOP  struture for the Exploring Raspberry Pi
+*
+*    This program can be used to easliy control multiple LEDS using a class.
+*    This program uses C++11 for the to_string() function and therefore must
+*    be compiled with the -std=c++11 flag.
+*/
+
+/*
+	this code been slightly modifified as part of assignment 1 work
+	by Sarraj Alsersawi: serajsersawi98@gmail.com
+	25/02/2024
+	Created by Derek Molloy's Exploring Raspberry Pi
+	@see https://github.com/derekmolloy/exploringrpi.git
+ 
+ */
+
 #include<iostream>
 #include<fstream>
 #include<string>
