@@ -318,13 +318,13 @@ unsigned int i2c_device_ds3231::readAlarm(ALARM_NO readAlarmNo){
 	switch(readAlarmNo){
 		case ALARM1: 
 			registerValue = (this->readRegister(CTRL_STAT_REG) );
-			registerValue &= (0x01)
+			registerValue &= (0x01);
 			return  registerValue;
 		break;
 		
 		case ALARM2:
 			registerValue = (this->readRegister(CTRL_STAT_REG) );
-			registerValue &= ((0x02) >> 1)
+			registerValue &= ((0x02) >> 1);
 			return  registerValue;
 		default: cerr << "Invalid alarm number!" << endl; return 0; break;
 	}
