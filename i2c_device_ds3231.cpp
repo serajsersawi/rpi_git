@@ -358,6 +358,15 @@ void i2c_device_ds3231::stopSquareWave(){
 	this->writeRegister(CTRL_REG, (RegisterVal));
 }
 
+void i2c_device_ds3231::enableAlarm1(){
+	stopSquareWave();
+
+	unsigned int RegisterVal = this->readRegister(CTRL_REG);
+	//enable interrupt
+	RegisterVal |= (1 << 0);
+	RegisterVal |= (1 << 2);
+	this->writeRegister(CTRL_REG, (RegisterVal));
+}
 
  
 void i2c_device_ds3231::displayTimeAndDate(){
