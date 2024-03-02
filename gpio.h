@@ -15,7 +15,7 @@ class LED{
       virtual void turnLEDOff();
 	  virtual void toggleLED();
       virtual void displayState();
-	  virtual unsigned int getState()
+	  virtual unsigned int getState();
       virtual ~LED();      // the destructor -- called automatically
 };
 
