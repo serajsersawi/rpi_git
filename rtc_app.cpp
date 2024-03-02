@@ -102,7 +102,7 @@ int main() {
 		    rtc.dumpRegisters();
 		   rtc.clearAlarmFlag(i2c_device_ds3231::ALARM1);
 		    rtc.dumpRegisters();
-		   break;
+		   //break;
 		   
 	   }
 		 
