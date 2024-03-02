@@ -328,7 +328,7 @@ int unsigned i2c_device_ds3231::readAlarm(ALARM_NO readAlarmNo){
 			return  1;
 		default: cerr << "Invalid alarm number!" << endl; return 0; break;
 	}
-	
+	return 0;
 }
 
 void i2c_device_ds3231::start32kHz(){
