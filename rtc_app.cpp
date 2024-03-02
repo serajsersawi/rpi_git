@@ -99,9 +99,9 @@ int main() {
 	   if(rtc.readAlarm(i2c_device_ds3231::ALARM1)){
 		   
 		   cout << "Interrupt" <<  endl;
-		    rtc.dumpRegisters();
+		   // rtc.dumpRegisters();
 		   rtc.clearAlarmFlag(i2c_device_ds3231::ALARM1);
-		    rtc.dumpRegisters();
+		   // rtc.dumpRegisters();
 		   //break;
 		   
 	   }
