@@ -36,7 +36,7 @@ void LED::toggleLED(){
 
 	//writeSysfs(gpioPath, "value", to_string((!getState()) + 48));
 	
-	switch(getState(){
+	switch(getState()){
 		
 		case 1: turnLEDOff(); break;
 		case 0: turnLEDOn(); break;
