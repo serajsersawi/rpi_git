@@ -312,7 +312,7 @@ void i2c_device_ds3231::clearAlarmFlag(ALARM_NO clearFlagAlarmNo){
 	}
 }
 
-unsigned int i2c_device_ds3231::readAlarm(ALARM_NO readAlarmNo){
+int i2c_device_ds3231::readAlarm(ALARM_NO readAlarmNo){
 	
 	unsigned int registerValue;
 	switch(readAlarmNo){
@@ -329,7 +329,7 @@ unsigned int i2c_device_ds3231::readAlarm(ALARM_NO readAlarmNo){
 		default: cerr << "Invalid alarm number!" << endl; return 0; break;
 	}
 	
-	
+	return -1;
 }
 
 void i2c_device_ds3231::start32kHz(){
@@ -370,7 +370,7 @@ void i2c_device_ds3231::alarmSnooze(ALARM_NO snoozeAlarmNo){
 		break;
 		default: 										break;
 	}
-	oldMinutesTargetReg = this->readRegister(minutesTargetReg)
+	oldMinutesTargetReg = this->readRegister(minutesTargetReg);
 	regMinutes = bcdToDec(oldMinutesTargetReg & 0x7F);
 	
 	if ((regMinutes) < 50){
