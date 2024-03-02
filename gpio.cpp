@@ -33,7 +33,7 @@ void LED::turnLEDOff(){
 }
 
 void LED::toggleLED(){
-		writeSysfs(gpioPath, "value", (getState() ^ 1 ) + 48);
+		writeSysfs(gpioPath, "value", to_string((getState() ^ 1 ) + 48));
 }
 
 
