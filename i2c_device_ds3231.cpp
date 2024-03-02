@@ -166,7 +166,7 @@ void i2c_device_ds3231::setAlarm(ALARM_NO alarmNo, ALARM_TYPE dayOrDate, unsigne
 	
 	enableAlarm(alarmNo);
 	
-	cout << "Alarm1 is set and enabled!  " << endl;
+	cout << "Alarm is set and enabled!  " << endl;
 	
 }
 
@@ -260,6 +260,7 @@ void i2c_device_ds3231::setAlarmDayDate(ALARM_NO setAlarmNo, unsigned int setAla
 		break;
 		default:break;
 		
+		}
 }
 
 void i2c_device_ds3231::enableAlarm(ALARM_NO enableAlarmNo){
