@@ -144,7 +144,7 @@ private:
 	virtual int			 setYear	(int year);
 	
 	virtual void enableAlarm1();
-	virtual void enableAlarm2();
+	//virtual void enableAlarm2();
 	virtual void enableAlarm(ALARM_NO enableAlarmNo);
 	virtual void disableAlarm(ALARM_NO disableAlarmNo);
 	virtual void clearAlarmFlag(ALARM_NO clearFlagAlarmNo);
