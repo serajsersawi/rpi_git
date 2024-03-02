@@ -202,7 +202,7 @@ void i2c_device_ds3231::setAlarmTime(ALARM_NO setAlarmNo, unsigned int setAlarmH
 			invalidData += setHours(setAlarmHours, ALARM1_REGS);
 			if(invalidData){
 				//set date to default
-				cerr << "Setting alarm1 back to 00:00:00" << endl;
+				cerr << "Setting alarm back to 00:00:00" << endl;
 				setSeconds(0, ALARM1_REGS);
 				setMinutes(0, ALARM1_REGS);
 				setHours(0, ALARM1_REGS);
@@ -215,7 +215,7 @@ void i2c_device_ds3231::setAlarmTime(ALARM_NO setAlarmNo, unsigned int setAlarmH
 			invalidData += setHours(setAlarmHours, ALARM2_REGS);
 			if(invalidData){
 				//set date to default
-				cerr << "Setting alarm1 back to 00:00:00" << endl;
+				cerr << "Setting alarm back to 00:00:00" << endl;
 				setSeconds(0, ALARM2_REGS);
 				setMinutes(0, ALARM2_REGS);
 				setHours(0, ALARM2_REGS);
@@ -491,7 +491,7 @@ void i2c_device_ds3231::setAlarm1Time(unsigned int A1_hours, unsigned int A1_min
 	
 	if(invalidData){
 		//set date to default
-		cerr << "Setting alarm1 back to 00:00:00" << endl;
+		cerr << "Setting alarm back to 00:00:00" << endl;
 		setSeconds(0, ALARM1_REGS);
 		setMinutes(0, ALARM1_REGS);
 		setHours(0, ALARM1_REGS);
@@ -517,24 +517,26 @@ unsigned int i2c_device_ds3231::setSeconds(unsigned int seconds, unsigned int re
 			targetRegister = ALARM1_SEC_REG;
 			break;
 		case ALARM2_REGS:
-			cerr << "Invalid register input for seconds!" << endl;
-			//targetRegister = SECONDS_REG;
-			return 1;
+			//cerr << "Invalid register input for seconds!" << endl;
+			targetRegister = NULL;
+			//return 1;
 			break;	
 		default:
 			cerr << "Invalid register input for seconds!" << endl;
 			//targetRegister = SECONDS_REG;
 			return 1;
 	}
-	if(seconds < 60){
-		this->writeRegister(targetRegister, (decimalToBCD(seconds) & 0x7F));
-		//update the object 
-		this->seconds = getSeconds();
-		return 0;
-	}
-	else{
-		cerr << "Seconds out of range (00-59)" << endl;
-		return 1;
+	if(targetRegister != NULL){
+		if(seconds < 60){
+			this->writeRegister(targetRegister, (decimalToBCD(seconds) & 0x7F));
+			//update the object 
+			this->seconds = getSeconds();
+			return 0;
+		}
+		else{
+			cerr << "Seconds out of range (00-59)" << endl;
+			return 1;
+		}
 	}
 }
 
