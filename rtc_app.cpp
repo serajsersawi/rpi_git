@@ -89,7 +89,9 @@ int main() {
    rtc.setAlarm(i2c_device_ds3231::ALARM2, i2c_device_ds3231::DAY_OF_MONTH, MS_MATCH, 1, 1, 17, 2, 0); 
    
    rtc.dumpRegisters();
-   
+   //snooze then dump to check validity
+   rtc.alarmSnooze(i2c_device_ds3231::ALARM2);
+   rtc.dumpRegisters();
    //polling test
    rtc.setAlarm(i2c_device_ds3231::ALARM1 ,i2c_device_ds3231::DAY_OF_MONTH, ONCE_PER_SECOND, 1, 1, 15, 38, 0); 
    
@@ -100,12 +102,12 @@ int main() {
 	   
 	
 	   if(rtc.readAlarm(i2c_device_ds3231::ALARM1)){
-		   
 		   cout << "Interrupt" <<  endl;
 		   // rtc.dumpRegisters();
 		   alarmLED.toggleLED();
 		   rtc.clearAlarmFlag(i2c_device_ds3231::ALARM1);
 		   // rtc.dumpRegisters();
+		   //use CTRL + C to break out of the loop
 		   //break;
 		   
 	   }

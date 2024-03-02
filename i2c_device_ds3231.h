@@ -153,6 +153,8 @@ private:
 	virtual void setAlarmTime(ALARM_NO setAlarmNo, unsigned int setAlarmHours, unsigned int setAlarmMinutes, unsigned int setAlarmSeconds);
 	virtual void setAlarmDayDate(ALARM_NO setAlarmNo, unsigned int setAlarmDate, unsigned int setAlarmDay, ALARM_TYPE setAlarmDayOrDate);
 	virtual void setAlarmMaskBits(ALARM_NO maskAlarmNo, ALARM_TYPE maskDayOrDate, unsigned int maskAlarmMatchMode);
+
+
 public:
 	/*public functions APIs*/
 	i2c_device_ds3231(unsigned int I2CBus, unsigned int I2CAddress=0x68);
@@ -178,6 +180,10 @@ public:
 	
 	virtual unsigned int readAlarm(ALARM_NO readAlarmNo);
 	virtual void clearAlarmFlag(ALARM_NO clearFlagAlarmNo);
+	
+	//Novel future used to advance the alarm set off time by 10 mins
+	virtual void alarmSnooze(ALARM_NO snoozeAlarmNo);
+	
 	static unsigned int bcdToDec(unsigned char bcdValue) {
     unsigned int tens = (bcdValue >> 4) * 10;
     unsigned int ones = bcdValue & 0x0F;

@@ -347,6 +347,55 @@ void i2c_device_ds3231::stop32kHz(){
 
 	
 }
+
+void i2c_device_ds3231::alarmSnooze(ALARM_NO snoozeAlarmNo){
+	
+	
+	clearAlarmFlag(snoozeAlarmNo);
+	unsigned int minutesTargetReg;
+	unsigned int hoursTargetReg;
+	unsigned int oldMinutesTargetReg;
+	unsigned int oldHoursTargetReg;
+	unsigned int regMinutes;
+	unsigned int regHours;
+	switch(snoozeAlarmNo){
+		
+		case ALARM1: 
+			minutesTargetReg = ALARM1_MIN_REG;
+			hoursTargetReg = ALARM1_HR_REG;		
+		break;
+		case ALARM2: 
+			minutesTargetReg = ALARM2_MIN_REG; 
+			hoursTargetReg = ALARM2_HR_REG;	
+		break;
+		default: 										break;
+	}
+	oldMinutesTargetReg = this->readRegister(minutesTargetReg)
+	regMinutes = bcdToDec(oldMinutesTargetReg & 0x7F);
+	
+	if ((regMinutes) < 50){
+
+		this->writeRegister(minutesTargetReg, (oldMinutesTargetReg | (decimalToBCD(regMinutes + 10) & 0x7F)));
+	}
+	
+	else{
+		//increment the hours and add the minutes difference
+		
+		this->writeRegister(minutesTargetReg, (oldMinutesTargetReg | (decimalToBCD(regMinutes + (60 - regMinutes)) & 0x7F)));
+	
+		oldHoursTargetReg = this->readRegister(hoursTargetReg);
+		regHours = bcdToDec(oldHoursTargetReg & 0x3F);
+		
+		if(regHours < 24){
+			this->writeRegister(hoursTargetReg, (oldHoursTargetReg | (decimalToBCD(regHours + 1) & 0x3F)));
+		}
+		else{
+			this->writeRegister(hoursTargetReg, (oldHoursTargetReg | (decimalToBCD(0) & 0x3F)));
+		}
+		
+	}
+	
+}
 ///////////////////////////////////////////////////////////////////////////
 
 void i2c_device_ds3231::startSquareWave(SQR_WAVES wave){
