@@ -87,6 +87,25 @@ int main() {
    
    rtc.dumpRegisters();
    
+   //polling test
+   rtc.setAlarm(i2c_device_ds3231::ALARM1 ,i2c_device_ds3231::DAY_OF_MONTH, ONCE_PER_SECOND, 1, 1, 15, 38, 0); 
+   
+   rtc.dumpRegisters();
+   
+   while(1){
+	   
+	   if(rtc.readAlarm(i2c_device_ds3231::ALARM1)){
+		   rtc.dumpRegisters();
+		   cout << "Interrupt" <<  endl;
+		   rtc.clearAlarmFlag(i2c_device_ds3231::ALARM1);
+		   break;
+	   }
+	   
+	   else{
+		   
+	   }
+   }
+   
    
    
    

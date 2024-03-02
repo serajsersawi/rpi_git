@@ -309,6 +309,16 @@ void i2c_device_ds3231::clearAlarmFlag(ALARM_NO clearFlagAlarmNo){
 		default: break;
 	}
 }
+
+unsigned int void i2c_device_ds3231::readAlarm(ALARM_NO readAlarmNo){
+	
+	
+	switch(readAlarmNo){
+		case ALARM1: return (this->readRegister(CTRL_STAT_REG) & ~(0x01)); break;
+		case ALARM2: return (this->readRegister(CTRL_STAT_REG) & ~(0x02)); break;
+		default: break;
+	}
+}
 ///////////////////////////////////////////////////////////////////////////
 
 void i2c_device_ds3231::startSquareWave(SQR_WAVES wave){

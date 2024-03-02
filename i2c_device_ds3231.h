@@ -147,7 +147,7 @@ private:
 	//virtual void enableAlarm2();
 	virtual void enableAlarm(ALARM_NO enableAlarmNo);
 	virtual void disableAlarm(ALARM_NO disableAlarmNo);
-	virtual void clearAlarmFlag(ALARM_NO clearFlagAlarmNo);
+	
 	virtual void setAlarm1Time(unsigned int A1_hours, unsigned int A1_minutes, unsigned int A1_seconds);
 	virtual void setAlarm1DayDate(unsigned int A1_date, unsigned int A1_day, ALARM_TYPE A1_dom_dow);
 	virtual void setAlarmTime(ALARM_NO setAlarmNo, unsigned int setAlarmHours, unsigned int setAlarmMinutes, unsigned int setAlarmSeconds);
@@ -157,22 +157,6 @@ public:
 	/*public functions APIs*/
 	i2c_device_ds3231(unsigned int I2CBus, unsigned int I2CAddress=0x68);
 	virtual int initUpdateAllRegisters();
-	//those might be moved to private
-
-	static unsigned int bcdToDec(unsigned char bcdValue) {
-    unsigned int tens = (bcdValue >> 4) * 10;
-    unsigned int ones = bcdValue & 0x0F;
-    return tens + ones;
-	}
-	
-	void dumpRegisters(unsigned int number = 0xff) {
-        debugDumpRegisters(number); // Calls the public function from the base class
-
-    }
-	
-	static unsigned char decimalToBCD(int decimal);
-
-
 
 	virtual void displayTimeAndDate();
 	virtual int displayTemperature();
@@ -187,7 +171,22 @@ public:
 	
 	virtual void setAlarm1(ALARM_TYPE A1_dom_dow, unsigned int A1_match_mode, unsigned int A1_date, unsigned int A1_day, unsigned int A1_hours, unsigned int A1_minutes, unsigned int A1_seconds);
 	virtual void setAlarm(ALARM_NO alarmNo, ALARM_TYPE dayOrDate, unsigned int alarmMatchMode, unsigned int alarmDate, unsigned int alarmDay, unsigned int alarmHours, unsigned int alarmMinutes, unsigned int alarmSeconds);
+	//FUTURE WORK: setAlarmInterruptGPIOPin
 	
+	virtual unsigned int void readAlarm(ALARM_NO readAlarmNo);
+	virtual void clearAlarmFlag(ALARM_NO clearFlagAlarmNo);
+	static unsigned int bcdToDec(unsigned char bcdValue) {
+    unsigned int tens = (bcdValue >> 4) * 10;
+    unsigned int ones = bcdValue & 0x0F;
+    return tens + ones;
+	}
+	void dumpRegisters(unsigned int number = 0xff) {
+        debugDumpRegisters(number); // Calls the public function from the base class
+    }
+	
+	static unsigned char decimalToBCD(int decimal);
+
+
 	virtual ~i2c_device_ds3231();
 };
 
