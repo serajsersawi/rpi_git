@@ -123,6 +123,195 @@ void i2c_device_ds3231::setAlarm1(ALARM_TYPE A1_dom_dow, unsigned int A1_match_m
 	
 	
 }
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+virtual void i2c_device_ds3231::setAlarm(ALARM_NO alarmNo, ALARM_TYPE dayOrDate, unsigned int alarmMatchMode, unsigned int alarmDate, unsigned int alarmDay, unsigned int alarmHours, unsigned int AlarmMinutes, unsigned int alarmSeconds){
+	
+	cout << "Setting Alarm  (" << alarmNo << ") ..." endl;
+	switch (alarmMatchMode){
+		
+		case ONCE_PER_SECOND:
+			cout << "Once per second " << endl;
+			break;
+		case S_MATCH:
+			if(alarmNo){
+				cout << "Seconds match " << endl;
+			}
+			else{
+				cout << "No seconds match for alarm (2)!" << endl;
+			}
+			break;
+		case MS_MATCH:
+			cout << "Minutes and seconds match " << endl;
+			break;
+		case HMS_MATCH:
+			cout << "Hour, minutes and seconds match " << endl;
+			break;
+		case DHMS_MATCH:
+			if(A1_dom_dow)
+				cout << "Day, hour, minutes and seconds match  Day:  " << alarmDay << endl;
+			else
+				cout << "Date, hour, minutes and seconds match  Date " << alarmDate<< endl;
+			break;
+		default: 
+				cout << "Inavlid match mode!" << endl;
+			
+	}
+	
+	cout << "Hours: " << alarmHours <<  "  Minutes: " << alarmMinutes <<  "  Seconds: " << alarmSeconds << endl;
+
+
+	setAlarmMaskBits(alarmNo, dayOrDate, alarmMatchMode);
+	setAlarmTime(alarmNo, alarmHours, alarmMinutes, alarmHours);
+	setAlarmDayDate(alarmNo, alarmDate, alarmDay, dayOrDate);
+	
+	enableAlarm(alarmNo);
+	
+	cout << "Alarm1 is set and enabled!  " << endl;
+	
+}
+
+void i2c_device_ds3231::setAlarmMaskBits(ALARM_NO maskAlarmNo, ALARM_TYPE maskDayOrDate, unsigned int maskAlarmMatchMode){
+	unsigned int baseRegister;
+	switch(maskAlarmNo){
+		case ALARM1: 
+			baseRegister = ALARM1_DAY_DATE_REG;
+			//Second register is exclusive to Alarm1
+			this->writeRegister(ALARM1_SEC_REG, ((maskAlarmMatchMode >> 0) & 0x01) << 7 ); //AM1
+		break;
+		case ALARM2: baseRegister = ALARM2_DAY_DATE_REG; break;
+		default: break;
+	}
+	
+	if(maskDayOrDate)
+		this->writeRegister(baseRegister--, (((maskAlarmMatchMode >> 3) & 0x01) << 7) | 0x40 ); //A1M4 //A1M2 DOW
+	else
+		this->writeRegister(baseRegister--, (((maskAlarmMatchMode >> 3) & 0x01) << 7 ) & (~(0x40)) ); //A1M2 DOM	
+	
+	this->writeRegister(baseRegister--, ((maskAlarmMatchMode >> 2) & 0x01) << 7); //AM3
+	this->writeRegister(baseRegister--, (((maskAlarmMatchMode >> 1) & 0x01) << 7)); //AM2 
+
+}
+
+void i2c_device_ds3231::setAlarmTime(ALARM_NO setAlarmNo, unsigned int setAlarmHours, unsigned int setAlarmMinutes, unsigned int setAlarmSeconds){
+
+	switch(setAlarmNo){
+		
+		case ALARM1:
+			unsigned int invalidData = 0;
+			invalidData = setSeconds(setAlarmSeconds, ALARM1_REGS);
+			invalidData += setMinutes(setAlarmMinutes, ALARM1_REGS);
+			invalidData += setHours(setAlarmHours, ALARM1_REGS);
+			if(invalidData){
+				//set date to default
+				cerr << "Setting alarm1 back to 00:00:00" << endl;
+				setSeconds(0, ALARM1_REGS);
+				setMinutes(0, ALARM1_REGS);
+				setHours(0, ALARM1_REGS);
+			}
+		break;
+		
+		case ALARM2:
+			unsigned int invalidData = 0;
+			invalidData = setSeconds(setAlarmSeconds, ALARM2_REGS);
+			invalidData += setMinutes(setAlarmMinutes, ALARM2_REGS);
+			invalidData += setHours(setAlarmHours, ALARM2_REGS);
+			if(invalidData){
+				//set date to default
+				cerr << "Setting alarm1 back to 00:00:00" << endl;
+				setSeconds(0, ALARM2_REGS);
+				setMinutes(0, ALARM2_REGS);
+				setHours(0, ALARM2_REGS);
+			}
+		break;
+		
+		default: break;
+	}
+
+}
+
+void i2c_device_ds3231::setAlarmDayDate(ALARM_NO setAlarmNo, unsigned int setDate, unsigned int setDay, ALARM_TYPE setDayOrDate){
+	unsigned int invalidData = 0;
+	
+		switch(setAlarmNo){	
+		case ALARM1:
+		
+			if(setDayOrDate)//day of week
+				invalidData = setDay(setDay, ALARM1_REGS);
+			else
+				invalidData = setDate(setDate, ALARM1_REGS);
+
+			if(invalidData){
+				//set date to default
+				cerr << "Setting date/day back to 1" << endl;
+				setDate(1, ALARM1_REGS);
+			}
+			
+		break;
+		case ALARM2:
+
+			if(setDayOrDate)//day of week
+				invalidData = setDay(setDay, ALARM2_REGS);
+			else
+				invalidData = setDate(setDate, ALARM2_REGS);
+
+			if(invalidData){
+				//set date to default
+				cerr << "Setting date/day back to 1" << endl;
+				setDate(1, ALARM2_REGS);
+			}
+		break;
+		default:break;
+		
+}
+
+void i2c_device_ds3231::enableAlarm(ALARM_NO enableAlarmNo){
+	
+	stopSquareWave();
+	clearAlarmFlag(enableAlarmNo);
+	unsigned int RegisterVal = this->readRegister(CTRL_REG);
+	//enable interrupt
+	RegisterVal |= (1 << 2);
+	//enable alarm interrupt 
+	switch (enableAlarmNo){
+		
+		case ALARM1: RegisterVal |= (1 << 0); break;
+		case ALARM2: RegisterVal |= (1 << 1); break;
+		default; break;
+		
+	}
+	
+	this->writeRegister(CTRL_REG, (RegisterVal));
+	
+}
+
+void i2c_device_ds3231::disableAlarm(ALARM_NO disableAlarmNo){
+	
+	clearAlarmFlag(enableAlarmNo);
+	unsigned int RegisterVal = this->readRegister(CTRL_REG);
+	//enable interrupt
+	RegisterVal &= ~(1 << 2);
+	//enable alarm interrupt 
+	switch (enableAlarmNo){
+		
+		case ALARM1: RegisterVal &= ~(1 << 0); break;
+		case ALARM2: RegisterVal &= ~(1 << 1); break;
+		default; break;
+		
+	}
+	this->writeRegister(CTRL_REG, (RegisterVal));
+	
+}
+
+void i2c_device_ds3231::clearAlarmFlag(ALARM_NO clearFlagAlarmNo){
+	unsigned int RegisterVal = this->readRegister(CTRL_STAT_REG);
+	switch(clearFlagAlarmNo){
+		case ALARM1: this->writeRegister(CTRL_STAT_REG, (RegisterVal & 0xFE)); break;
+		case ALARM1: this->writeRegister(CTRL_STAT_REG, (RegisterVal & 0xFD)); break;
+		default: break;
+	}
+}
+///////////////////////////////////////////////////////////////////////////
+
 void i2c_device_ds3231::startSquareWave(SQR_WAVES wave){
 	
 	unsigned int RegisterVal = this->readRegister(CTRL_REG);
@@ -165,13 +354,14 @@ void i2c_device_ds3231::stopSquareWave(){
 	//reset the BBSQW bit
 	RegisterVal &= ~(1 << 6);
 	//set the INTCN bit
-	RegisterVal |= (1 << 2);
+	//RegisterVal |= (1 << 2);
 	
 	this->writeRegister(CTRL_REG, (RegisterVal));
 }
 
 void i2c_device_ds3231::enableAlarm1(){
 	stopSquareWave();
+	clearAlarm1Flag();
 	unsigned int RegisterVal = this->readRegister(CTRL_REG);
 	//enable interrupt
 	RegisterVal |= (1 << 0);

@@ -53,11 +53,14 @@
 #define HMS_MATCH		0x08
 #define DHMS_MATCH		0x00
 
+//setting register target
 #define RTC_REGS			0x00
 #define ALARM1_REGS		0x01
 #define ALARM2_REGS		0x02
 
-
+//Alarm no setting
+#define ALARM1 1
+#define ALARM2 2
 
 namespace i2c {
 	
@@ -100,6 +103,11 @@ public:
 		DAY_OF_WEEK	  //DY	 
 	};
 	
+	enum ALARM_NO {
+		ALARM1 = 1, 
+		ALARM2	   
+	};
+	
 private:
 	/*private function*/
 	unsigned int I2CBus, I2CAddress;
@@ -137,9 +145,15 @@ private:
 	virtual int			 setYear	(int year);
 	
 	virtual void enableAlarm1();
+	virtual void enableAlarm2();
+	virtual void enableAlarm(ALARM_NO enableAlarmNo);
+	virtual void disableAlarm(ALARM_NO disableAlarmNo);
+	virtual void clearAlarmFlag(ALARM_NO clearFlagAlarmNo);
 	virtual void setAlarm1Time(unsigned int A1_hours, unsigned int A1_minutes, unsigned int A1_seconds);
 	virtual void setAlarm1DayDate(unsigned int A1_date, unsigned int A1_day, ALARM_TYPE A1_dom_dow);
-	
+	virtual void setAlarmTime(ALARM_NO setAlarmNo, unsigned int setAlarmHours, unsigned int setAlarmMinutes, unsigned int setAlarmSeconds);
+	virtual void setAlarmDayDate(ALARM_NO setAlarmNo, unsigned int setDate, unsigned int setDay, ALARM_TYPE setDayOrDate);
+	virtual void setAlarmMaskBits(ALARM_NO maskAlarmNo, ALARM_TYPE maskDayOrDate, unsigned int maskAlarmMatchMode);
 public:
 	/*public functions APIs*/
 	i2c_device_ds3231(unsigned int I2CBus, unsigned int I2CAddress=0x68);
@@ -173,6 +187,7 @@ public:
  	virtual void stopSquareWave(); 
 	
 	virtual void setAlarm1(ALARM_TYPE A1_dom_dow, unsigned int A1_match_mode, unsigned int A1_date, unsigned int A1_day, unsigned int A1_hours, unsigned int A1_minutes, unsigned int A1_seconds);
+	virtual void setAlarm(ALARM_NO alarmNo, ALARM_TYPE dayOrDate, unsigned int alarmMatchMode, unsigned int alarmDate, unsigned int alarmDay, unsigned int alarmHours, unsigned int alarmMinutes, unsigned int alarmSeconds);
 	
 	virtual ~i2c_device_ds3231();
 };
