@@ -193,11 +193,10 @@ void i2c_device_ds3231::setAlarmMaskBits(ALARM_NO maskAlarmNo, ALARM_TYPE maskDa
 }
 
 void i2c_device_ds3231::setAlarmTime(ALARM_NO setAlarmNo, unsigned int setAlarmHours, unsigned int setAlarmMinutes, unsigned int setAlarmSeconds){
-
+	unsigned int invalidData = 0;
 	switch(setAlarmNo){
 		
 		case ALARM1:
-			unsigned int invalidData = 0;
 			invalidData = setSeconds(setAlarmSeconds, ALARM1_REGS);
 			invalidData += setMinutes(setAlarmMinutes, ALARM1_REGS);
 			invalidData += setHours(setAlarmHours, ALARM1_REGS);
@@ -211,7 +210,6 @@ void i2c_device_ds3231::setAlarmTime(ALARM_NO setAlarmNo, unsigned int setAlarmH
 		break;
 		
 		case ALARM2:
-			unsigned int invalidData = 0;
 			invalidData = setSeconds(setAlarmSeconds, ALARM2_REGS);
 			invalidData += setMinutes(setAlarmMinutes, ALARM2_REGS);
 			invalidData += setHours(setAlarmHours, ALARM2_REGS);
