@@ -5,6 +5,8 @@
 #include"gpio.h"
 using namespace std;
 
+#define GPIO         "/sys/class/gpio/"
+#define FLASH_DELAY  50000 // 50 milliseconds
 
 LED::LED(int gpioNumber){  // constructor implementation
    this->gpioNumber = gpioNumber;

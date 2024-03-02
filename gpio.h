@@ -3,8 +3,6 @@
 #ifndef GPIO_H_
 #define GPIO_H_
 
-#define GPIO         "/sys/class/gpio/"
-#define FLASH_DELAY  50000 // 50 milliseconds
 
 class LED{
    private:                // the following is part of the implementation
