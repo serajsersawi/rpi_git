@@ -59,8 +59,7 @@
 #define ALARM2_REGS		0x02
 
 //Alarm no setting
-#define ALARM1 1
-#define ALARM2 2
+
 
 namespace i2c {
 	

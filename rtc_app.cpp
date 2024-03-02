@@ -83,7 +83,7 @@ int main() {
    
    rtc.displayTimeAndDate();
    
-   rtc.setAlarm(ALARM2, i2c_device_ds3231::DAY_OF_MONTH, MS_MATCH, 1, 1, 17, 2, 0); 
+   rtc.setAlarm(i2c_device_ds3231::ALARM2, i2c_device_ds3231::DAY_OF_MONTH, MS_MATCH, 1, 1, 17, 2, 0); 
    
    rtc.dumpRegisters();
    
