@@ -67,6 +67,8 @@ int i2c_device_ds3231::initUpdateAllRegisters(){
    check += (this->writeRegister(DATE_REG, DATE_DEFAULT)); //01
    check += (this->writeRegister(YEAR_REG, YEAR_DEFAULT)); //2000
    
+   check += (this->writeRegister(CTRL_STAT_REG, CONTROL_STATUS_DEFAULT)); //2000
+   
    return check;
 }
 
