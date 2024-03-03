@@ -635,6 +635,7 @@ unsigned int i2c_device_ds3231::setSeconds(unsigned int seconds, unsigned int re
 unsigned int i2c_device_ds3231::getMinutes(){return bcdToDec(this->readRegister(MINUTES_REG));}
 
 unsigned int i2c_device_ds3231::setMinutes(unsigned int minutes, unsigned int reg){
+	cout << "minutes input" << minutes << endl;
 	unsigned int targetRegister = MINUTES_REG;
 	switch (reg){
 		case RTC_REGS:
