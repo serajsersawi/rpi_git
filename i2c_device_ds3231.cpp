@@ -550,7 +550,7 @@ void i2c_device_ds3231::setAlarm1DayDate(unsigned int A1_date, unsigned int A1_d
 }
 
 void i2c_device_ds3231::setTime(unsigned int hours, unsigned int minutes, unsigned int seconds){
-	
+	cout << "seconds" << seconds << "minutes" << minutes << "hours" << hours << endl;
 	unsigned int invalidData = 0;
 	invalidData = setSeconds(seconds, RTC_REGS)
 	+ setMinutes(minutes, RTC_REGS)
