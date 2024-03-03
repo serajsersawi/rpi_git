@@ -1,0 +1,8 @@
+#!/bin/bash
+echo "Assignment 1 build and run..."
+
+g++ rtc_app.cpp i2c_device.cpp i2c_device_ds3231.cpp gpio.cpp -o runapp
+
+./runapp
+
+echo "Finished"

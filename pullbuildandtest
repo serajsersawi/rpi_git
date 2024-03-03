@@ -1,0 +1,9 @@
+#!/bin/bash
+echo "Assignment 1 pull, build and test..."
+git pull
+
+g++ rtc_app.cpp i2c_device.cpp i2c_device_ds3231.cpp gpio.cpp -o test
+
+./test
+
+echo "Finished"
