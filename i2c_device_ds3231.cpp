@@ -530,10 +530,6 @@ void i2c_device_ds3231::setDate(unsigned int date, unsigned int month, int year)
 		setYear(2000);
 		setMonth(1);
 		setDate(1, RTC_REGS);
-		cerr << "Setting time back to 00:00:00" << endl;
-		setSeconds(0, RTC_REGS);
-		setMinutes(0, RTC_REGS);
-		setHours(0, RTC_REGS);
 	}
 }
 
