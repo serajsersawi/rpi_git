@@ -65,12 +65,14 @@ int main() {
     
     rtc.setTimeAndDate(19,44,22,29,2,2025); //Invalid date
     rtc.displayTimeAndDate();
+	rtc.dumpRegisters();
 	sleep(2);
     
     //31/30 date test
 
 	rtc.setTimeAndDate(2,35,51,31,4,2025); //Invalid date
     rtc.displayTimeAndDate();
+	rtc.dumpRegisters();
 	sleep(2);
 	
     rtc.setTimeAndDate(14,30,55,30,4,2025); //Valid date

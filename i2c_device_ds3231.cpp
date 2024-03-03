@@ -606,9 +606,9 @@ unsigned int i2c_device_ds3231::setSeconds(unsigned int seconds, unsigned int re
 			targetRegister = ALARM1_SEC_REG;
 			break;
 		case ALARM2_REGS:
-			//cerr << "Invalid register input for seconds!" << endl;
-			targetRegister = 13;
-			//return 1;
+			cerr << "Invalid register input for seconds!" << endl;
+			//targetRegister = 13;
+			return 1;
 			break;	
 		default:
 			cerr << "Invalid register input for seconds!" << endl;
