@@ -62,7 +62,7 @@ int main() {
     rtc.setTimeAndDate(18,33,12,29,2,2024); //Valid date
     rtc.displayTimeAndDate();
 	sleep(2);
-    
+    //seraj
     rtc.setTimeAndDate(19,44,22,29,2,2025); //Invalid date
     rtc.displayTimeAndDate();
 	rtc.dumpRegisters();
